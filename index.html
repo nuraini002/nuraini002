@@ -5,238 +5,627 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KOTOBA — Japanese Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
 <style>
-:root {
-  --green:#718b70;
-  --dark:#344b3b;
-  --light:#edf2e9;
-  --cream:#fafaf5;
-  --white:#fff;
-  --muted:#7d887c;
-  --border:#e2e8de;
+:root{
+  --green:#68866e;
+  --dark:#385441;
+  --sage:#e9f0e7;
+  --cream:#faf9f4;
+  --white:#ffffff;
+  --text:#39483d;
+  --muted:#89948a;
+  --border:#e8ece5;
+  --shadow:0 5px 20px rgba(55,80,60,.06);
 }
 *{box-sizing:border-box}
 body{
-  margin:0;background:var(--cream);color:#344338;
-  font-family:Arial,sans-serif;
+  margin:0;
+  background:var(--cream);
+  color:var(--text);
+  font-family:'DM Sans','Noto Sans JP',sans-serif;
 }
-header{
-  background:var(--white);padding:18px 7%;
-  display:flex;justify-content:space-between;align-items:center;
-  border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:5;
+button,input{font:inherit}
+button{cursor:pointer}
+.sidebar{
+  position:fixed;
+  top:0;left:0;bottom:0;
+  width:245px;
+  background:white;
+  border-right:1px solid var(--border);
+  padding:30px 19px;
+  display:flex;
+  flex-direction:column;
+  z-index:10;
 }
-.logo{font-size:23px;font-weight:800;letter-spacing:3px;color:var(--dark)}
-.logo span{color:var(--green)}
-nav{display:flex;gap:8px;flex-wrap:wrap}
-nav button,.btn{
-  border:0;border-radius:10px;padding:10px 14px;
-  background:var(--light);color:var(--dark);
-  cursor:pointer;font-weight:600;
+.brand{
+  padding:0 13px 32px;
 }
-nav button.active,.btn.primary{background:var(--green);color:white}
-main{max-width:1100px;margin:32px auto;padding:0 20px}
+.brand-name{
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:3px;
+  color:var(--dark);
+}
+.brand-name span{color:var(--green)}
+.brand-sub{
+  font-family:'Noto Sans JP',sans-serif;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:2px;
+  margin-top:5px;
+}
+.nav-label{
+  color:#a0aaa0;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.8px;
+  padding:10px 13px;
+}
+.nav-button{
+  border:0;
+  background:transparent;
+  color:#758176;
+  width:100%;
+  text-align:left;
+  padding:13px 14px;
+  border-radius:12px;
+  margin:3px 0;
+  font-size:13px;
+  font-weight:600;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  transition:.2s;
+}
+.nav-button:hover{background:var(--cream);color:var(--dark)}
+.nav-button.active{
+  background:var(--sage);
+  color:var(--dark);
+}
+.nav-icon{font-size:17px;width:20px;text-align:center}
+.sidebar-bottom{
+  margin-top:auto;
+  padding:15px 13px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+}
+.main{
+  margin-left:245px;
+  padding:35px 5%;
+  max-width:1600px;
+}
 .page{display:none}
 .page.active{display:block}
-h1{font-size:30px;margin:0 0 8px;color:var(--dark)}
-h2{color:var(--dark)}
-.subtitle{color:var(--muted);margin:0 0 25px;line-height:1.6}
-.card{
-  background:white;border:1px solid var(--border);
-  border-radius:18px;padding:22px;margin-bottom:18px;
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+  margin-bottom:25px;
 }
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.stat strong{display:block;font-size:27px;color:var(--green);margin-top:8px}
-.stat span{color:var(--muted);font-size:13px}
-.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-.menu-card{cursor:pointer;transition:.2s}
-.menu-card:hover{transform:translateY(-3px);border-color:var(--green)}
-.menu-card h3{margin-top:0;color:var(--dark)}
+h1{
+  color:var(--dark);
+  font-size:28px;
+  margin:0 0 8px;
+  font-weight:800;
+}
+h2{
+  color:var(--dark);
+  font-size:19px;
+  margin:0 0 15px;
+}
+h3{color:var(--dark)}
+.subtitle{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  margin:0;
+}
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:22px;
+  box-shadow:var(--shadow);
+}
+.hero{
+  background:linear-gradient(120deg,#e9f0e7,#f4f4e9);
+  border-radius:20px;
+  padding:30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+  overflow:hidden;
+}
+.hero h1{font-size:27px}
+.hero p{
+  color:#718071;
+  font-size:13px;
+  line-height:1.7;
+  max-width:430px;
+}
+.hero-flower{font-size:65px;margin:0 25px}
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:28px;
+}
+.stat-card{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+.stat-icon{
+  width:45px;height:45px;
+  display:grid;place-items:center;
+  background:var(--sage);
+  border-radius:13px;
+  font-size:21px;
+}
+.stat-label{color:var(--muted);font-size:11px}
+.stat-number{
+  color:var(--dark);
+  font-size:24px;
+  font-weight:800;
+  margin-top:4px;
+}
+.learning-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+.learning-card{
+  display:flex;
+  align-items:center;
+  gap:17px;
+  cursor:pointer;
+  transition:.2s;
+}
+.learning-card:hover{transform:translateY(-3px)}
+.lesson-icon{
+  width:55px;height:55px;
+  display:grid;place-items:center;
+  border-radius:15px;
+  background:var(--sage);
+  font-size:25px;
+  flex-shrink:0;
+}
+.learning-card h3{margin:0 0 5px;font-size:15px}
+.learning-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:27px 0 15px;
+}
+.tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:18px 0;
+}
+.tab{
+  border:1px solid var(--border);
+  background:white;
+  color:#718071;
+  border-radius:10px;
+  padding:10px 15px;
+  font-size:12px;
+  font-weight:700;
+}
+.tab.active{
+  background:var(--green);
+  color:white;
+  border-color:var(--green);
+}
+.progress-track{
+  height:9px;
+  background:var(--sage);
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:10px;
+}
+.progress-fill{
+  height:100%;
+  background:var(--green);
+  border-radius:20px;
+  width:0%;
+}
 .kana-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));
-  gap:12px;margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(115px,1fr));
+  gap:12px;
+  margin-top:20px;
 }
 .kana-card{
-  border:1px solid var(--border);border-radius:14px;
-  padding:15px 10px;text-align:center;background:white;
-  display:flex;flex-direction:column;align-items:center;gap:7px;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:14px;
+  padding:15px 8px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  min-width:0;
 }
-.kana-char{font-size:36px;color:var(--dark);line-height:1.2}
-.kana-romaji{font-size:14px;color:var(--muted);min-height:18px}
-.kana-card button{
-  border:0;border-radius:8px;padding:7px 10px;
-  background:var(--light);color:var(--dark);cursor:pointer;
-  font-size:12px;font-weight:600;margin-top:4px;
+.kana-char{
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:36px;
+  line-height:1.35;
+  color:var(--dark);
 }
-.kana-card button.learned{
-  background:var(--green);color:white;
+.kana-romaji{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.4;
+  min-height:18px;
 }
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
-.tabs button{
-  border:1px solid var(--border);background:white;color:var(--dark);
-  padding:9px 13px;border-radius:9px;cursor:pointer;
+.learn-button{
+  border:0;
+  background:var(--sage);
+  color:var(--dark);
+  padding:7px 10px;
+  border-radius:8px;
+  font-size:10px;
+  font-weight:700;
+  white-space:nowrap;
+  margin-top:2px;
 }
-.tabs button.active{background:var(--green);color:white}
+.learn-button.learned{
+  background:var(--green);
+  color:white;
+}
+.search-box{
+  width:100%;
+  max-width:400px;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:11px;
+  padding:12px 14px;
+  outline:none;
+  font-size:13px;
+}
+.vocab-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:13px;
+}
+.vocab-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+.vocab-jp{
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:25px;
+  color:var(--dark);
+  margin-bottom:7px;
+}
+.vocab-romaji{font-size:12px;color:var(--muted)}
+.vocab-meaning{font-size:13px;margin-top:10px;font-weight:700}
 .lesson{
-  padding:16px;border:1px solid var(--border);
-  border-radius:13px;margin:12px 0;background:white;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:19px;
+  margin:12px 0;
+  box-shadow:var(--shadow);
 }
-.lesson h3{margin:0 0 8px;color:var(--dark)}
-.lesson p{line-height:1.6;margin:7px 0}
+.lesson h3{font-size:15px;margin:0 0 10px}
+.lesson p{font-size:13px;line-height:1.7;color:#68766a}
 .example{
-  background:var(--light);padding:12px;border-radius:10px;
-  margin-top:10px;line-height:1.7;
+  background:var(--sage);
+  border-radius:11px;
+  padding:13px;
+  font-size:13px;
+  line-height:1.9;
+  color:var(--dark);
+  margin-top:12px;
 }
-.quiz-box{text-align:center;max-width:700px;margin:auto}
-.quiz-question{font-size:48px;color:var(--dark);margin:25px 0}
+.quiz-wrap{max-width:720px;margin:auto}
+.quiz-box{text-align:center;padding:30px}
+.quiz-counter{font-size:12px;color:var(--muted)}
+.quiz-question{
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:54px;
+  color:var(--dark);
+  margin:25px 0 15px;
+}
+.quiz-instruction{font-size:13px;color:var(--muted)}
 .quiz-options{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:12px;margin:20px 0;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin:25px 0;
 }
 .quiz-option{
-  background:white;border:1px solid var(--border);
-  padding:15px;border-radius:12px;cursor:pointer;
-  font-size:16px;color:var(--dark);
+  padding:15px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:var(--dark);
+  font-weight:600;
 }
-.quiz-option:hover{border-color:var(--green)}
-.quiz-option:disabled{cursor:default;opacity:.8}
-.feedback{min-height:25px;font-weight:600;margin:15px}
-.progress-bar{
-  height:12px;background:var(--light);
-  border-radius:20px;overflow:hidden;margin-top:12px;
+.quiz-option:hover{border-color:var(--green);background:var(--sage)}
+.quiz-option:disabled{cursor:default}
+.quiz-feedback{min-height:25px;font-size:13px;font-weight:700}
+.primary-button,.secondary-button{
+  border:0;
+  border-radius:10px;
+  padding:11px 17px;
+  font-size:12px;
+  font-weight:700;
+  margin:5px;
 }
-.progress-fill{height:100%;background:var(--green);width:0%}
-input,select{
-  padding:10px;border:1px solid var(--border);
-  border-radius:9px;font:inherit;
+.primary-button{background:var(--green);color:white}
+.secondary-button{background:var(--sage);color:var(--dark)}
+.progress-list{margin-top:20px}
+.progress-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:15px 0;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
 }
-footer{text-align:center;color:var(--muted);padding:30px;font-size:13px}
+.mobile-nav{display:none}
+
+@media(max-width:850px){
+  .sidebar{width:205px}
+  .main{margin-left:205px;padding:28px 3%}
+}
 @media(max-width:650px){
-  header{align-items:flex-start;gap:15px;flex-direction:column}
-  nav{gap:6px}
-  nav button{font-size:12px;padding:8px}
-  .stats,.menu-grid{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{margin:0;padding:25px 17px 95px}
+  .mobile-nav{
+    display:flex;
+    position:fixed;
+    bottom:0;left:0;right:0;
+    background:white;
+    border-top:1px solid var(--border);
+    padding:9px 4px;
+    justify-content:space-around;
+    z-index:20;
+  }
+  .mobile-nav button{
+    border:0;background:none;
+    color:var(--muted);
+    font-size:10px;
+    display:flex;flex-direction:column;
+    align-items:center;gap:4px;
+  }
+  .mobile-nav button.active{color:var(--green);font-weight:800}
+  .mobile-nav span{font-size:19px}
+  .stats-grid{gap:8px;grid-template-columns:1fr}
+  .learning-grid{grid-template-columns:1fr}
+  .hero{padding:22px}
+  .hero-flower{font-size:42px;margin:0 0 0 8px}
+  .hero h1{font-size:22px}
+  .page-heading h1{font-size:24px}
   .quiz-options{grid-template-columns:1fr}
-  h1{font-size:25px}
+  .kana-grid{grid-template-columns:repeat(auto-fill,minmax(95px,1fr))}
 }
 </style>
 </head>
+
 <body>
 
-<header>
-  <div class="logo">KO<span>TO</span>BA.</div>
-  <nav>
-    <button class="active" onclick="showPage('home',this)">Beranda</button>
-    <button onclick="showPage('kana',this)">Kana</button>
-    <button onclick="showPage('vocab',this)">Kosakata</button>
-    <button onclick="showPage('grammar',this)">Grammar</button>
-    <button onclick="showPage('quiz',this)">Quiz</button>
-    <button onclick="showPage('progress',this)">Progres</button>
-  </nav>
-</header>
-
-<main>
-
-<!-- BERANDA -->
-<section class="page active" id="home">
-  <h1>こんにちは！</h1>
-  <p class="subtitle">Selamat datang di KOTOBA. Yuk, belajar bahasa Jepang sedikit demi sedikit.</p>
-
-  <div class="stats">
-    <div class="card stat"><span>Total XP</span><strong id="homeXP">0</strong></div>
-    <div class="card stat"><span>Kana dipelajari</span><strong id="homeKana">0</strong></div>
-    <div class="card stat"><span>Quiz selesai</span><strong id="homeQuiz">0</strong></div>
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-name">KO<span>TO</span>BA.</div>
+    <div class="brand-sub">日本語を学ぼう · BELAJAR JEPANG</div>
   </div>
 
-  <h2>Mulai belajar</h2>
-  <div class="menu-grid">
-    <div class="card menu-card" onclick="showPage('kana')">
-      <h3>あ Kana</h3><p>Pelajari Hiragana dan Katakana.</p>
+  <div class="nav-label">MAIN MENU</div>
+  <button class="nav-button active" onclick="showPage('home',this)">
+    <span class="nav-icon">⌂</span> Dashboard
+  </button>
+  <button class="nav-button" onclick="showPage('kana',this)">
+    <span class="nav-icon">あ</span> Kana Learning
+  </button>
+  <button class="nav-button" onclick="showPage('vocab',this)">
+    <span class="nav-icon">文</span> Vocabulary
+  </button>
+  <button class="nav-button" onclick="showPage('grammar',this)">
+    <span class="nav-icon">書</span> Grammar
+  </button>
+  <button class="nav-button" onclick="showPage('quiz',this)">
+    <span class="nav-icon">✎</span> Quiz Challenge
+  </button>
+  <button class="nav-button" onclick="showPage('progress',this)">
+    <span class="nav-icon">◷</span> My Progress
+  </button>
+
+  <div class="sidebar-bottom">
+    <div>🌿 KOTOBA Japanese Learning</div>
+    <div>Learn at your own pace.</div>
+  </div>
+</aside>
+
+<nav class="mobile-nav">
+  <button class="active" onclick="showPage('home',this)"><span>⌂</span>Home</button>
+  <button onclick="showPage('kana',this)"><span>あ</span>Kana</button>
+  <button onclick="showPage('vocab',this)"><span>文</span>Vocab</button>
+  <button onclick="showPage('grammar',this)"><span>書</span>Grammar</button>
+  <button onclick="showPage('quiz',this)"><span>✎</span>Quiz</button>
+  <button onclick="showPage('progress',this)"><span>◷</span>Progress</button>
+</nav>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+<section class="page active" id="home">
+  <div class="hero">
+    <div>
+      <h1>こんにちは！ 🌸</h1>
+      <p>Selamat datang di KOTOBA. Mulai perjalanan belajar bahasa Jepangmu dan nikmati setiap prosesnya.</p>
     </div>
-    <div class="card menu-card" onclick="showPage('vocab')">
-      <h3>言葉 Kosakata</h3><p>Tambah perbendaharaan kata Jepang.</p>
+    <div class="hero-flower">🌸</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="card stat-card">
+      <div class="stat-icon">⭐</div>
+      <div><div class="stat-label">TOTAL XP</div><div class="stat-number" id="homeXP">0</div></div>
     </div>
-    <div class="card menu-card" onclick="showPage('grammar')">
-      <h3>文法 Grammar</h3><p>Pelajari pola kalimat bahasa Jepang.</p>
+    <div class="card stat-card">
+      <div class="stat-icon">あ</div>
+      <div><div class="stat-label">KANA LEARNED</div><div class="stat-number" id="homeKana">0</div></div>
     </div>
-    <div class="card menu-card" onclick="showPage('quiz')">
-      <h3>クイズ Quiz</h3><p>Uji pemahamanmu dan kumpulkan XP.</p>
+    <div class="card stat-card">
+      <div class="stat-icon">✎</div>
+      <div><div class="stat-label">QUIZ COMPLETED</div><div class="stat-number" id="homeQuiz">0</div></div>
+    </div>
+  </div>
+
+  <div class="section-title"><h2>Explore Learning</h2></div>
+  <div class="learning-grid">
+    <div class="card learning-card" onclick="showPage('kana')">
+      <div class="lesson-icon">あ</div>
+      <div><h3>Kana Learning</h3><p>Belajar Hiragana dan Katakana.</p></div>
+    </div>
+    <div class="card learning-card" onclick="showPage('vocab')">
+      <div class="lesson-icon">言</div>
+      <div><h3>Vocabulary</h3><p>Tambah kosakata bahasa Jepang.</p></div>
+    </div>
+    <div class="card learning-card" onclick="showPage('grammar')">
+      <div class="lesson-icon">文</div>
+      <div><h3>Grammar</h3><p>Pelajari pola tata bahasa Jepang.</p></div>
+    </div>
+    <div class="card learning-card" onclick="showPage('quiz')">
+      <div class="lesson-icon">✎</div>
+      <div><h3>Quiz Challenge</h3><p>Uji kemampuan dan kumpulkan XP.</p></div>
     </div>
   </div>
 </section>
 
 <!-- KANA -->
 <section class="page" id="kana">
-  <h1>Kana Learning</h1>
-  <p class="subtitle">Kenali huruf dasar bahasa Jepang dan tandai huruf yang sudah kamu kuasai.</p>
+  <div class="page-heading">
+    <div>
+      <h1>Kana Learning</h1>
+      <p class="subtitle">Pelajari huruf Jepang satu per satu.</p>
+    </div>
+  </div>
+
   <div class="card">
     <div class="tabs">
-      <button class="active" onclick="renderKana('hiragana',this)">Hiragana</button>
-      <button onclick="renderKana('katakana',this)">Katakana</button>
+      <button class="tab active" onclick="renderKana('hiragana',this)">Hiragana</button>
+      <button class="tab" onclick="renderKana('katakana',this)">Katakana</button>
     </div>
-    <p id="kanaProgress">0 huruf dipelajari</p>
-    <div class="progress-bar"><div class="progress-fill" id="kanaBar"></div></div>
+    <div style="display:flex;justify-content:space-between;gap:10px;font-size:12px">
+      <strong id="kanaProgress">0 huruf dipelajari</strong>
+      <span id="kanaPercent">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="kanaBar"></div></div>
     <div class="kana-grid" id="kanaGrid"></div>
   </div>
 </section>
 
-<!-- KOSAKATA -->
+<!-- VOCABULARY -->
 <section class="page" id="vocab">
-  <h1>Kosakata Jepang</h1>
-  <p class="subtitle">Beberapa kosakata dasar untuk menambah kemampuan bahasa Jepangmu.</p>
-  <div id="vocabList"></div>
+  <div class="page-heading">
+    <div>
+      <h1>Vocabulary</h1>
+      <p class="subtitle">Kumpulan kosakata bahasa Jepang beserta artinya.</p>
+    </div>
+  </div>
+  <input class="search-box" id="vocabSearch" placeholder="Cari kosakata..." oninput="renderVocab()">
+  <div style="height:18px"></div>
+  <div class="vocab-grid" id="vocabList"></div>
 </section>
 
 <!-- GRAMMAR -->
 <section class="page" id="grammar">
-  <h1>Japanese Grammar</h1>
-  <p class="subtitle">Pelajari pola tata bahasa Jepang dari dasar beserta contoh kalimatnya.</p>
-  <div class="tabs">
-    <button class="active" onclick="renderGrammar('dasar',this)">Dasar</button>
-    <button onclick="renderGrammar('kata kerja',this)">Kata kerja</button>
-    <button onclick="renderGrammar('kata sifat',this)">Kata sifat</button>
+  <div class="page-heading">
+    <div>
+      <h1>Japanese Grammar</h1>
+      <p class="subtitle">Pelajari pola kalimat dan tata bahasa Jepang.</p>
+    </div>
   </div>
-  <div id="grammarList"></div>
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" onclick="renderGrammar('dasar',this)">Dasar</button>
+      <button class="tab" onclick="renderGrammar('kata kerja',this)">Kata kerja</button>
+      <button class="tab" onclick="renderGrammar('kata sifat',this)">Kata sifat</button>
+    </div>
+    <div id="grammarList"></div>
+  </div>
 </section>
 
 <!-- QUIZ -->
 <section class="page" id="quiz">
-  <h1>Quiz Challenge</h1>
-  <p class="subtitle">Jawab pertanyaan dan dapatkan 5 XP untuk setiap jawaban benar.</p>
-  <div class="card quiz-box">
-    <div id="quizCounter">Pertanyaan 1</div>
-    <div class="quiz-question" id="quizQuestion">あ</div>
-    <p id="quizInstruction">Pilih jawaban yang benar.</p>
-    <div class="quiz-options" id="quizOptions"></div>
-    <div class="feedback" id="quizFeedback"></div>
-    <button class="btn primary" id="nextQuestion" onclick="nextQuiz()" style="display:none">Soal berikutnya →</button>
-    <button class="btn" onclick="startQuiz()">Ulangi quiz</button>
+  <div class="page-heading">
+    <div>
+      <h1>Quiz Challenge</h1>
+      <p class="subtitle">Uji pemahamanmu dan dapatkan XP dari jawaban benar.</p>
+    </div>
+  </div>
+  <div class="quiz-wrap">
+    <div class="card quiz-box">
+      <div class="quiz-counter" id="quizCounter">Pertanyaan 1 / 10</div>
+      <div class="quiz-question" id="quizQuestion">あ</div>
+      <p class="quiz-instruction" id="quizInstruction">Pilih jawaban yang benar.</p>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <button class="primary-button" id="nextQuestion" onclick="nextQuiz()" style="display:none">Soal berikutnya →</button>
+      <button class="secondary-button" onclick="startQuiz()">Ulangi quiz</button>
+    </div>
   </div>
 </section>
 
-<!-- PROGRES -->
+<!-- PROGRESS -->
 <section class="page" id="progress">
-  <h1>My Progress</h1>
-  <p class="subtitle">Lihat perkembangan belajarmu di KOTOBA.</p>
-  <div class="stats">
-    <div class="card stat"><span>Total XP</span><strong id="progressXP">0</strong></div>
-    <div class="card stat"><span>Kana dipelajari</span><strong id="progressKana">0</strong></div>
-    <div class="card stat"><span>Quiz selesai</span><strong id="progressQuiz">0</strong></div>
+  <div class="page-heading">
+    <div>
+      <h1>My Progress</h1>
+      <p class="subtitle">Pantau perjalanan belajarmu di KOTOBA.</p>
+    </div>
   </div>
+
+  <div class="stats-grid">
+    <div class="card stat-card">
+      <div class="stat-icon">⭐</div>
+      <div><div class="stat-label">TOTAL XP</div><div class="stat-number" id="progressXP">0</div></div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-icon">あ</div>
+      <div><div class="stat-label">KANA LEARNED</div><div class="stat-number" id="progressKana">0</div></div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-icon">✎</div>
+      <div><div class="stat-label">QUIZ COMPLETED</div><div class="stat-number" id="progressQuiz">0</div></div>
+    </div>
+  </div>
+
   <div class="card">
-    <h3>Catatan belajar</h3>
-    <p>Terus berlatih setiap hari. Konsistensi lebih penting daripada belajar terburu-buru.</p>
-    <button class="btn" onclick="resetProgress()">Reset progres</button>
+    <h2>Learning Summary</h2>
+    <p class="subtitle">Terus berlatih secara konsisten. Sedikit demi sedikit akan menjadi kemajuan besar.</p>
+    <div class="progress-list">
+      <div class="progress-row"><span>Total XP</span><strong id="summaryXP">0 XP</strong></div>
+      <div class="progress-row"><span>Hiragana & Katakana</span><strong id="summaryKana">0 huruf</strong></div>
+      <div class="progress-row"><span>Quiz selesai</span><strong id="summaryQuiz">0 kali</strong></div>
+    </div>
+    <button class="secondary-button" onclick="resetProgress()">Reset progres</button>
   </div>
 </section>
 
 </main>
-<footer>KOTOBA — Learn Japanese at your own pace 🌿</footer>
 
 <script>
 /* DATA KANA */
-const kanaData = {
-hiragana: [
+const kanaData={
+hiragana:[
 ["あ","a"],["い","i"],["う","u"],["え","e"],["お","o"],
 ["か","ka"],["き","ki"],["く","ku"],["け","ke"],["こ","ko"],
 ["さ","sa"],["し","shi"],["す","su"],["せ","se"],["そ","so"],
@@ -260,7 +649,7 @@ hiragana: [
 ["みゃ","mya"],["みゅ","myu"],["みょ","myo"],
 ["りゃ","rya"],["りゅ","ryu"],["りょ","ryo"]
 ],
-katakana: [
+katakana:[
 ["ア","a"],["イ","i"],["ウ","u"],["エ","e"],["オ","o"],
 ["カ","ka"],["キ","ki"],["ク","ku"],["ケ","ke"],["コ","ko"],
 ["サ","sa"],["シ","shi"],["ス","su"],["セ","se"],["ソ","so"],
@@ -283,7 +672,7 @@ katakana: [
 };
 
 /* DATA KOSAKATA */
-const vocabulary = [
+const vocabulary=[
 ["こんにちは","konnichiwa","Halo"],
 ["ありがとう","arigatou","Terima kasih"],
 ["おはよう","ohayou","Selamat pagi"],
@@ -322,8 +711,8 @@ const vocabulary = [
 ];
 
 /* DATA GRAMMAR */
-const grammarData = {
-dasar: [
+const grammarData={
+dasar:[
 {
 title:"1. は (wa) — Penanda topik",
 pattern:"Kata benda + は + informasi",
@@ -427,32 +816,49 @@ example:"高くないです。<br>Takaku nai desu.<br>Tidak mahal / tidak tinggi
 ]
 };
 
-/* DATA PROGRES */
-let state = JSON.parse(localStorage.getItem("kotobaState") || "null") || {
-xp:0, learned:[], quizCompleted:0
+/* PROGRES */
+let state=JSON.parse(localStorage.getItem("kotobaState")||"null")||{
+xp:0,learned:[],quizCompleted:0
 };
 function saveState(){
   localStorage.setItem("kotobaState",JSON.stringify(state));
   updateStats();
 }
 function updateStats(){
-  const kanaCount=state.learned.length;
-  ["homeXP","progressXP"].forEach(id=>document.getElementById(id).textContent=state.xp);
-  ["homeKana","progressKana"].forEach(id=>document.getElementById(id).textContent=kanaCount);
-  ["homeQuiz","progressQuiz"].forEach(id=>document.getElementById(id).textContent=state.quizCompleted);
+  const count=state.learned.length;
+  ["homeXP","progressXP","summaryXP"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent=id==="summaryXP"?state.xp+" XP":state.xp;
+  });
+  ["homeKana","progressKana"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent=count;
+  });
+  ["homeQuiz","progressQuiz"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent=state.quizCompleted;
+  });
+  document.getElementById("summaryKana").textContent=count+" huruf";
+  document.getElementById("summaryQuiz").textContent=state.quizCompleted+" kali";
 }
 
 /* NAVIGASI */
 function showPage(id,button){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-  if(button)button.classList.add("active");
-  if(id==="progress")updateStats();
+
+  document.querySelectorAll(".nav-button,.mobile-nav button").forEach(b=>b.classList.remove("active"));
+
+  document.querySelectorAll(".nav-button,.mobile-nav button").forEach(b=>{
+    if(b.getAttribute("onclick")?.includes("'"+id+"'"))b.classList.add("active");
+  });
+
   if(id==="kana")renderKana(currentKana);
   if(id==="vocab")renderVocab();
   if(id==="grammar")renderGrammar(currentGrammar);
   if(id==="quiz")startQuiz();
+  updateStats();
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 /* KANA */
@@ -460,28 +866,34 @@ let currentKana="hiragana";
 function renderKana(type,button){
   currentKana=type;
   if(button){
-    document.querySelectorAll("#kana .tabs button").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll("#kana .tab").forEach(b=>b.classList.remove("active"));
     button.classList.add("active");
   }
+  const data=kanaData[type];
   const grid=document.getElementById("kanaGrid");
   grid.innerHTML="";
-  const data=kanaData[type];
   let learnedCount=0;
+
   data.forEach(([char,romaji])=>{
     const key=type+"-"+char;
     const learned=state.learned.includes(key);
     if(learned)learnedCount++;
+
     const card=document.createElement("div");
     card.className="kana-card";
+
     const symbol=document.createElement("div");
     symbol.className="kana-char";
     symbol.textContent=char;
+
     const reading=document.createElement("div");
     reading.className="kana-romaji";
     reading.textContent=romaji;
+
     const btn=document.createElement("button");
+    btn.className="learn-button"+(learned?" learned":"");
     btn.textContent=learned?"✓ Learned":"Mark as learned";
-    if(learned)btn.classList.add("learned");
+
     btn.onclick=()=>{
       if(state.learned.includes(key)){
         state.learned=state.learned.filter(x=>x!==key);
@@ -493,26 +905,41 @@ function renderKana(type,button){
       saveState();
       renderKana(type);
     };
+
     card.append(symbol,reading,btn);
     grid.appendChild(card);
   });
+
+  const percent=Math.round(learnedCount/data.length*100);
   document.getElementById("kanaProgress").textContent=
     learnedCount+" dari "+data.length+" huruf dipelajari";
-  document.getElementById("kanaBar").style.width=
-    (learnedCount/data.length*100)+"%";
+  document.getElementById("kanaPercent").textContent=percent+"%";
+  document.getElementById("kanaBar").style.width=percent+"%";
 }
 
-/* KOSAKATA */
+/* VOCABULARY */
 function renderVocab(){
   const list=document.getElementById("vocabList");
+  const search=document.getElementById("vocabSearch").value.toLowerCase();
   list.innerHTML="";
-  vocabulary.forEach(([jp,romaji,id])=>{
+  const filtered=vocabulary.filter(([jp,romaji,meaning])=>
+    (jp+romaji+meaning).toLowerCase().includes(search)
+  );
+
+  filtered.forEach(([jp,romaji,meaning])=>{
     const card=document.createElement("div");
-    card.className="lesson";
-    card.innerHTML=
-      `<h3>${jp}</h3><p>${romaji}</p><p><strong>Arti:</strong> ${id}</p>`;
+    card.className="vocab-card";
+    card.innerHTML=`
+      <div class="vocab-jp">${jp}</div>
+      <div class="vocab-romaji">${romaji}</div>
+      <div class="vocab-meaning">${meaning}</div>
+    `;
     list.appendChild(card);
   });
+
+  if(filtered.length===0){
+    list.innerHTML="<p class='subtitle'>Kosakata tidak ditemukan.</p>";
+  }
 }
 
 /* GRAMMAR */
@@ -520,17 +947,13 @@ let currentGrammar="dasar";
 function renderGrammar(type,button){
   currentGrammar=type;
   if(button){
-    document.querySelectorAll("#grammar .tabs button").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll("#grammar .tab").forEach(b=>b.classList.remove("active"));
     button.classList.add("active");
   }
   const list=document.getElementById("grammarList");
   list.innerHTML="";
-  const lessons=grammarData[type] || [];
-  if(lessons.length===0){
-    list.innerHTML="<p>Materi belum tersedia.</p>";
-    return;
-  }
-  lessons.forEach(item=>{
+
+  grammarData[type].forEach(item=>{
     const card=document.createElement("div");
     card.className="lesson";
     card.innerHTML=`
@@ -570,6 +993,7 @@ function renderQuizQuestion(){
   answered=false;
   const question=quizQuestions[quizIndex];
   if(!question)return;
+
   document.getElementById("quizCounter").textContent=
     "Pertanyaan "+(quizIndex+1)+" / "+quizQuestions.length;
   document.getElementById("quizQuestion").textContent=question.q;
@@ -582,7 +1006,7 @@ function renderQuizQuestion(){
 
   let choices=[question.a];
   let pool=question.type==="kana"?
-    quizQuestions.filter(x=>x.type==="kana" && x.a!==question.a).map(x=>x.a):
+    quizQuestions.filter(x=>x.type==="kana"&&x.a!==question.a).map(x=>x.a):
     vocabulary.map(x=>x[2]).filter(x=>x!==question.a);
 
   pool.sort(()=>Math.random()-.5);
@@ -595,11 +1019,11 @@ function renderQuizQuestion(){
   const options=document.getElementById("quizOptions");
   options.innerHTML="";
   choices.forEach(choice=>{
-    const button=document.createElement("button");
-    button.className="quiz-option";
-    button.textContent=choice;
-    button.onclick=()=>answerQuiz(choice);
-    options.appendChild(button);
+    const btn=document.createElement("button");
+    btn.className="quiz-option";
+    btn.textContent=choice;
+    btn.onclick=()=>answerQuiz(choice);
+    options.appendChild(btn);
   });
 }
 function answerQuiz(choice){
@@ -607,6 +1031,7 @@ function answerQuiz(choice){
   answered=true;
   const question=quizQuestions[quizIndex];
   const feedback=document.getElementById("quizFeedback");
+
   if(choice===question.a){
     feedback.textContent="✓ Benar! +5 XP";
     feedback.style.color="var(--green)";
@@ -616,12 +1041,11 @@ function answerQuiz(choice){
     feedback.textContent="Belum tepat. Jawaban yang benar: "+question.a;
     feedback.style.color="#bd756b";
   }
+
   saveState();
-  document.querySelectorAll(".quiz-option").forEach(button=>{
-    button.disabled=true;
-    if(button.textContent===question.a){
-      button.style.background="#dcebd8";
-    }
+  document.querySelectorAll(".quiz-option").forEach(btn=>{
+    btn.disabled=true;
+    if(btn.textContent===question.a)btn.style.background="#e9f0e7";
   });
   document.getElementById("nextQuestion").style.display="inline-block";
 }
@@ -643,7 +1067,7 @@ function nextQuiz(){
   renderQuizQuestion();
 }
 
-/* RESET */
+/* RESET PROGRES */
 function resetProgress(){
   if(confirm("Yakin ingin menghapus semua progres belajar?")){
     state={xp:0,learned:[],quizCompleted:0};
@@ -653,12 +1077,13 @@ function resetProgress(){
   }
 }
 
-/* MULAI */
+/* INITIALIZE */
 updateStats();
 renderKana("hiragana");
 renderVocab();
 renderGrammar("dasar");
 startQuiz();
 </script>
+
 </body>
 </html>
