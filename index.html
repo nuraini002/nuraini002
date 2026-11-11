@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Echoes of the Forgotten</title>
+    <title>Chef Cat's Bento Rush</title>
     <style>
         * {
             box-sizing: border-box;
@@ -16,7 +16,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #050508;
+            background-color: #1e1b4b;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
         }
@@ -29,19 +29,19 @@
             align-items: center;
         }
         canvas {
-            background-color: #080910;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            background-color: #312e81;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
             display: block;
         }
-        
-        /* UI Screens */
+
+        /* UI Overlay Screens */
         .overlay-screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(8, 9, 16, 0.92);
+            background: rgba(30, 27, 75, 0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -51,64 +51,52 @@
             text-align: center;
         }
         .hidden { display: none !important; }
-        
+
         h1 {
-            font-size: 2.8rem;
-            color: #fbbf24;
-            text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+            font-size: 2.5rem;
+            color: #f43f5e;
+            text-shadow: 0 0 15px rgba(244, 63, 94, 0.5);
             margin-bottom: 10px;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
         h2 {
             font-size: 1.8rem;
-            color: #38bdf8;
+            color: #fbbf24;
             margin-bottom: 15px;
         }
         p {
             font-size: 1rem;
-            color: #cbd5e1;
-            max-width: 600px;
+            color: #e2e8f0;
+            max-width: 550px;
             line-height: 1.5;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
-        
+
         /* Tutorial Grid */
         .tutorial-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             width: 100%;
-            max-width: 750px;
+            max-width: 700px;
             margin-bottom: 25px;
         }
         .tutorial-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.07);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 15px;
             text-align: left;
         }
         .tutorial-card h3 {
             font-size: 1.1rem;
-            color: #fbbf24;
+            color: #34d399;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
-        .key-badge {
-            background: #334155;
-            border: 1px solid #64748b;
-            color: #f8fafc;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-        
+
         /* Buttons */
         .btn {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: linear-gradient(135deg, #f43f5e, #e11d48);
             color: #fff;
             border: none;
             padding: 12px 32px;
@@ -116,58 +104,17 @@
             font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4);
             transition: all 0.2s ease;
         }
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+            box-shadow: 0 6px 20px rgba(244, 63, 94, 0.6);
         }
         .btn:active { transform: translateY(1px); }
-        
-        /* Touch Controls for Mobile */
-        #touch-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 25px;
-            z-index: 5;
-            pointer-events: none;
-        }
-        .touch-group {
-            display: flex;
-            gap: 15px;
-            pointer-events: auto;
-        }
-        .touch-btn {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: white;
-            backdrop-filter: blur(4px);
-            touch-action: manipulation;
-        }
-        .touch-btn:active {
-            background: rgba(251, 191, 36, 0.4);
-            border-color: #fbbf24;
-        }
-        .touch-btn-wide {
-            width: 80px;
-            border-radius: 30px;
-        }
 
         @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
+            h1 { font-size: 1.8rem; }
             .tutorial-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -179,61 +126,49 @@
 
     <!-- Start Screen -->
     <div id="start-screen" class="overlay-screen">
-        <h1>ECHOES OF THE FORGOTTEN</h1>
-        <p>Jelajahi reruntuhan kuno, pulihkan energi lentera jiwamu, dan temukan jalan keluar dari kegelapan abadi.</p>
-        <button class="btn" onclick="showTutorial()">PELAJARI CARA MAIN</button>
+        <h1>CHEF CAT'S BENTO RUSH</h1>
+        <p>Bantu Chef Meow meracik kotak bento lezat untuk para pelanggan kucing yang lapar di kota!</p>
+        <button class="btn" onclick="showTutorial()">CARA BERMAIN</button>
     </div>
 
     <!-- Tutorial Screen -->
     <div id="tutorial-screen" class="overlay-screen hidden">
-        <h2>PANDUAN BERMAIN</h2>
+        <h2>PANDUAN KITCHEN RUSH</h2>
         
         <div class="tutorial-grid">
             <div class="tutorial-card">
-                <h3>🎮 Pergerakan</h3>
-                <p>Gunakan <span class="key-badge">A</span> / <span class="key-badge">D</span> atau <span class="key-badge">←</span> <span class="key-badge">→</span> untuk bergerak. Tekan <span class="key-badge">W</span> / <span class="key-badge">Space</span> untuk melompat.</p>
+                <h3>🍱 Baca Pesanan</h3>
+                <p>Pelanggan akan datang membawa pesanan berupa kombinasi 3 bahan makanan di atas kepala mereka.</p>
             </div>
             <div class="tutorial-card">
-                <h3>💡 Aura Cahaya</h3>
-                <p>Tahan <span class="key-badge">Shift</span> atau <span class="key-badge">E</span> untuk memancarkan aura. Aura dapat <strong>memusnahkan musuh bayangan</strong> (mengonsumsi energi).</p>
+                <h3>👆 Klik Bahan Dapur</h3>
+                <p>Klik tombol bahan di meja dapur (Nasi, Ikan, Rumput Laut, Telur) untuk menyusun bento sesuai pesanan.</p>
             </div>
             <div class="tutorial-card">
-                <h3>🧱 Pijakan & Rintangan</h3>
-                <p>Semua platform terlihat jelas! Hindari duri tajam dan musuh bayangan yang berpatroli.</p>
+                <h3>⏰ Perhatikan Waktu</h3>
+                <p>Jangan biarkan bar kesabaran pelanggan habis! Sajikan tepat waktu untuk mendapat koin & skor.</p>
             </div>
             <div class="tutorial-card">
-                <h3>💎 Target Utama</h3>
-                <p>Kumpulkan semua <strong>Light Shards (Kristal)</strong> di setiap stage untuk membuka Altar Kuno menuju level berikutnya.</p>
+                <h3>🏆 Target Level</h3>
+                <p>Kumpulkan target skor sebelum waktu shift harian habis untuk menyelesaikan level!</p>
             </div>
         </div>
 
-        <button class="btn" onclick="startGame()">MULAI PETUALANGAN</button>
+        <button class="btn" onclick="startGame()">BUKA KEDAI SEKARANG</button>
     </div>
 
     <!-- Game Over Screen -->
     <div id="gameover-screen" class="overlay-screen hidden">
-        <h1 style="color: #ef4444;">CAHAYA REDUP</h1>
-        <p id="gameover-desc">Energi lenteramu habis. Namun semangatmu belum padam!</p>
-        <button class="btn" onclick="restartFromCheckpoint()">COBA LAGI (STAGE SAAT INI)</button>
+        <h1 style="color: #ef4444;">SHIFT SELESAI</h1>
+        <p id="gameover-desc">Terlalu banyak pelanggan yang kecewa atau target koin tidak tercapai.</p>
+        <button class="btn" onclick="startGame()">COBA LAGI</button>
     </div>
 
     <!-- Victory Screen -->
     <div id="victory-screen" class="overlay-screen hidden">
-        <h1 style="color: #10b981;">KOTA KEMBALI BERCAHAYA</h1>
-        <p>Selamat! Kamu telah mengumpulkan seluruh Light Shards dan mengembalikan energi ke inti kota kuno.</p>
-        <button class="btn" onclick="resetToStart()">MAIN LAGI</button>
-    </div>
-
-    <!-- Touch Controls for Mobile -->
-    <div id="touch-controls">
-        <div class="touch-group">
-            <div class="touch-btn" id="btn-left">◄</div>
-            <div class="touch-btn" id="btn-right">►</div>
-        </div>
-        <div class="touch-group">
-            <div class="touch-btn touch-btn-wide" id="btn-aura">AURA</div>
-            <div class="touch-btn" id="btn-jump">▲</div>
-        </div>
+        <h1 style="color: #34d399;">KEDAI SUKSES BESAR!</h1>
+        <p id="victory-desc">Hebat! Kamu berhasil melayani semua pelanggan dengan sempurna hari ini.</p>
+        <button class="btn" onclick="startGame()">MAIN LAGI</button>
     </div>
 </div>
 
@@ -252,49 +187,40 @@ function playSound(type) {
     const gain = audioCtx.createGain();
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-
     const now = audioCtx.currentTime;
 
-    if (type === 'jump') {
-        osc.frequency.setValueAtTime(150, now);
-        osc.frequency.exponentialRampToValueAtTime(400, now + 0.15);
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.linearRampToValueAtTime(0, now + 0.15);
-        osc.start(now);
-        osc.stop(now + 0.15);
-    } else if (type === 'shard') {
-        osc.frequency.setValueAtTime(523.25, now); // C5
-        osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
-        osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.linearRampToValueAtTime(0, now + 0.3);
-        osc.start(now);
-        osc.stop(now + 0.3);
-    } else if (type === 'hurt') {
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(120, now);
-        osc.frequency.linearRampToValueAtTime(40, now + 0.2);
-        gain.gain.setValueAtTime(0.4, now);
-        gain.gain.linearRampToValueAtTime(0, now + 0.2);
-        osc.start(now);
-        osc.stop(now + 0.2);
-    } else if (type === 'destroy') {
-        osc.type = 'triangle';
+    if (type === 'tap') {
         osc.frequency.setValueAtTime(300, now);
-        osc.frequency.exponentialRampToValueAtTime(60, now + 0.25);
-        gain.gain.setValueAtTime(0.3, now);
+        osc.frequency.exponentialRampToValueAtTime(600, now + 0.08);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.08);
+        osc.start(now);
+        osc.stop(now + 0.08);
+    } else if (type === 'serve') {
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.setValueAtTime(660, now + 0.08);
+        osc.frequency.setValueAtTime(880, now + 0.16);
+        gain.gain.setValueAtTime(0.2, now);
         gain.gain.linearRampToValueAtTime(0, now + 0.25);
         osc.start(now);
         osc.stop(now + 0.25);
-    } else if (type === 'win') {
-        osc.frequency.setValueAtTime(440, now);
-        osc.frequency.setValueAtTime(554.37, now + 0.12);
-        osc.frequency.setValueAtTime(659.25, now + 0.24);
-        osc.frequency.setValueAtTime(880, now + 0.36);
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.linearRampToValueAtTime(0, now + 0.6);
+    } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(150, now);
+        osc.frequency.linearRampToValueAtTime(80, now + 0.2);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.2);
         osc.start(now);
-        osc.stop(now + 0.6);
+        osc.stop(now + 0.2);
+    } else if (type === 'win') {
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.setValueAtTime(659.25, now + 0.1);
+        osc.frequency.setValueAtTime(783.99, now + 0.2);
+        osc.frequency.setValueAtTime(1046.50, now + 0.3);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.5);
+        osc.start(now);
+        osc.stop(now + 0.5);
     }
 }
 
@@ -307,168 +233,102 @@ const CANVAS_HEIGHT = 500;
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 
-let currentStageIndex = 0;
 let gameState = 'START'; // START, TUTORIAL, PLAYING, GAMEOVER, VICTORY
+let score = 0;
+let coins = 0;
+let shiftTimer = 45; // Waktu shift dalam detik
+let timerInterval = null;
 
-// Keys track
-const keys = {
-    left: false,
-    right: false,
-    jump: false,
-    aura: false
-};
-
-// Player Object
-const player = {
-    x: 50,
-    y: 300,
-    width: 24,
-    height: 24,
-    vx: 0,
-    vy: 0,
-    speed: 4.5,
-    jumpForce: -10.5,
-    gravity: 0.5,
-    grounded: false,
-    energy: 100,
-    maxEnergy: 100,
-    auraActive: false,
-    auraRadius: 90
-};
-
-// --- STAGE DEFINITIONS ---
-const stages = [
-    {
-        name: "Stage 1: Ruins of Ash",
-        playerStart: { x: 50, y: 380 },
-        platforms: [
-            { x: 0, y: 440, w: 220, h: 60, type: 'normal' },
-            { x: 260, y: 380, w: 140, h: 25, type: 'magic' },
-            { x: 440, y: 320, w: 150, h: 25, type: 'normal' },
-            { x: 630, y: 260, w: 140, h: 25, type: 'magic' },
-            { x: 800, y: 200, w: 100, h: 300, type: 'normal' }
-        ],
-        spikes: [
-            { x: 220, y: 480, w: 580, h: 20 }
-        ],
-        shards: [
-            { x: 330, y: 340, collected: false },
-            { x: 515, y: 280, collected: false },
-            { x: 700, y: 220, collected: false }
-        ],
-        enemies: [
-            { x: 460, y: 290, minX: 440, maxX: 560, speed: 1.5, dir: 1, alive: true }
-        ],
-        altar: { x: 830, y: 140, w: 40, h: 60, open: false }
-    },
-    {
-        name: "Stage 2: Whispering Chasm",
-        playerStart: { x: 50, y: 300 },
-        platforms: [
-            { x: 0, y: 350, w: 140, h: 150, type: 'normal' },
-            { x: 180, y: 380, w: 110, h: 25, type: 'magic' },
-            { x: 340, y: 320, w: 110, h: 25, type: 'normal' },
-            { x: 500, y: 260, w: 120, h: 25, type: 'magic' },
-            { x: 670, y: 200, w: 110, h: 25, type: 'magic' },
-            { x: 810, y: 150, w: 90, h: 350, type: 'normal' }
-        ],
-        spikes: [
-            { x: 140, y: 480, w: 670, h: 20 }
-        ],
-        shards: [
-            { x: 230, y: 340, collected: false },
-            { x: 390, y: 280, collected: false },
-            { x: 550, y: 220, collected: false },
-            { x: 720, y: 160, collected: false }
-        ],
-        enemies: [
-            { x: 350, y: 290, minX: 340, maxX: 430, speed: 2, dir: 1, alive: true },
-            { x: 520, y: 230, minX: 500, maxX: 600, speed: 2.5, dir: -1, alive: true }
-        ],
-        altar: { x: 835, y: 90, w: 40, h: 60, open: false }
-    },
-    {
-        name: "Stage 3: Citadel of Shadows",
-        playerStart: { x: 50, y: 400 },
-        platforms: [
-            { x: 0, y: 450, w: 130, h: 50, type: 'normal' },
-            { x: 170, y: 390, w: 90, h: 25, type: 'magic' },
-            { x: 300, y: 330, w: 90, h: 25, type: 'magic' },
-            { x: 430, y: 270, w: 100, h: 25, type: 'normal' },
-            { x: 570, y: 210, w: 90, h: 25, type: 'magic' },
-            { x: 700, y: 160, w: 90, h: 25, type: 'magic' },
-            { x: 820, y: 110, w: 80, h: 390, type: 'normal' }
-        ],
-        spikes: [
-            { x: 130, y: 480, w: 690, h: 20 }
-        ],
-        shards: [
-            { x: 215, y: 350, collected: false },
-            { x: 345, y: 290, collected: false },
-            { x: 475, y: 230, collected: false },
-            { x: 615, y: 170, collected: false },
-            { x: 745, y: 120, collected: false }
-        ],
-        enemies: [
-            { x: 440, y: 240, minX: 430, maxX: 510, speed: 2.2, dir: 1, alive: true },
-            { x: 580, y: 180, minX: 570, maxX: 650, speed: 2.8, dir: -1, alive: true }
-        ],
-        altar: { x: 840, y: 50, w: 40, h: 60, open: false }
-    }
+// Bahan Makanan
+const INGREDIENTS = [
+    { id: 0, name: 'Nasi', color: '#f8fafc', icon: '🍚' },
+    { id: 1, name: 'Ikan', color: '#38bdf8', icon: '🐟' },
+    { id: 2, name: 'Rumput Laut', color: '#059669', icon: '🌿' },
+    { id: 3, name: 'Telur', color: '#fbbf24', icon: '🥚' }
 ];
 
-let currentLevelData = null;
+// Piring Bento Pemain (Maksimal 3 bahan)
+let playerBento = [];
 
-function loadStage(index) {
-    currentStageIndex = index;
-    const template = stages[index];
-    
-    // Deep copy level data
-    currentLevelData = {
-        name: template.name,
-        platforms: JSON.parse(JSON.stringify(template.platforms)),
-        spikes: JSON.parse(JSON.stringify(template.spikes)),
-        shards: JSON.parse(JSON.stringify(template.shards)),
-        enemies: JSON.parse(JSON.stringify(template.enemies)),
-        altar: { ...template.altar }
+// Antrean Pelanggan Kucing
+let customers = [];
+const maxCustomers = 3;
+
+// Tombol Interaktif Dapur (Area klik di canvas)
+const kitchenButtons = [
+    { x: 150, y: 380, w: 120, h: 70, ingId: 0, label: '🍚 Nasi' },
+    { x: 300, y: 380, w: 120, h: 70, ingId: 1, label: '🐟 Ikan' },
+    { x: 450, y: 380, w: 120, h: 70, ingId: 2, label: '🌿 Nori' },
+    { x: 600, y: 380, w: 120, h: 70, ingId: 3, label: '🥚 Telur' }
+];
+
+function generateRandomOrder() {
+    // Pesanan berisi 2 atau 3 bahan acak
+    const orderLength = Math.random() > 0.4 ? 3 : 2;
+    const order = [];
+    for (let i = 0; i < orderLength; i++) {
+        const randIng = INGREDIENTS[Math.floor(Math.random() * INGREDIENTS.length)].id;
+        order.push(randIng);
+    }
+    return order;
+}
+
+function spawnCustomer(index) {
+    const customerNames = ['Milo', 'Luna', 'Oreo', 'Mochi', 'Simba'];
+    return {
+        id: Math.random(),
+        name: customerNames[Math.floor(Math.random() * customerNames.length)],
+        order: generateRandomOrder(),
+        maxPatience: 12, // detik
+        patience: 12,
+        xPos: 200 + index * 220
     };
-
-    // Reset player position & energy
-    player.x = template.playerStart.x;
-    player.y = template.playerStart.y;
-    player.vx = 0;
-    player.vy = 0;
-    player.energy = player.maxEnergy;
 }
 
-// --- INPUT LISTENERS ---
-window.addEventListener('keydown', (e) => {
-    initAudio();
-    if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = true;
-    if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = true;
-    if (e.code === 'KeyW' || e.code === 'Space' || e.code === 'ArrowUp') keys.jump = true;
-    if (e.code === 'ShiftLeft' || e.code === 'KeyE') keys.aura = true;
-});
+function initGame() {
+    score = 0;
+    coins = 0;
+    shiftTimer = 45;
+    playerBento = [];
+    customers = [];
 
-window.addEventListener('keyup', (e) => {
-    if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = false;
-    if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = false;
-    if (e.code === 'KeyW' || e.code === 'Space' || e.code === 'ArrowUp') keys.jump = false;
-    if (e.code === 'ShiftLeft' || e.code === 'KeyE') keys.aura = false;
-});
+    // Buat 3 pelanggan awal di antrean
+    for (let i = 0; i < maxCustomers; i++) {
+        customers.push(spawnCustomer(i));
+    }
 
-// Touch buttons binding
-function setupTouchBtn(id, keyProp) {
-    const el = document.getElementById(id);
-    el.addEventListener('touchstart', (e) => { e.preventDefault(); initAudio(); keys[keyProp] = true; });
-    el.addEventListener('touchend', (e) => { e.preventDefault(); keys[keyProp] = false; });
-    el.addEventListener('mousedown', (e) => { initAudio(); keys[keyProp] = true; });
-    el.addEventListener('mouseup', () => { keys[keyProp] = false; });
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        if (gameState === 'PLAYING') {
+            shiftTimer--;
+            // Kurangi kesabaran pelanggan
+            customers.forEach(c => {
+                c.patience -= 1;
+            });
+            // Cek pelanggan yang habis kesabarannya
+            customers = customers.filter(c => {
+                if (c.patience <= 0) {
+                    score = Math.main ? 0 : Math.max(0, score - 20);
+                    playSound('wrong');
+                    return false; // Hapus pelanggan
+                }
+                return true;
+            });
+            // Isi kembali pelanggan jika kurang
+            while (customers.length < maxCustomers) {
+                customers.push(spawnCustomer(customers.length));
+            }
+
+            if (shiftTimer <= 0) {
+                if (score >= 150) {
+                    triggerVictory();
+                } else {
+                    triggerGameOver();
+                }
+            }
+        }
+    }, 1000);
 }
-setupTouchBtn('btn-left', 'left');
-setupTouchBtn('btn-right', 'right');
-setupTouchBtn('btn-jump', 'jump');
-setupTouchBtn('btn-aura', 'aura');
 
 // --- SCREEN NAVIGATION ---
 function showTutorial() {
@@ -477,295 +337,204 @@ function showTutorial() {
 }
 
 function startGame() {
+    document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('tutorial-screen').classList.add('hidden');
-    loadStage(0);
-    gameState = 'PLAYING';
-}
-
-function restartFromCheckpoint() {
     document.getElementById('gameover-screen').classList.add('hidden');
-    loadStage(currentStageIndex); // Reload stage saat ini (TIDAK dari awal)
-    gameState = 'PLAYING';
-}
-
-function resetToStart() {
     document.getElementById('victory-screen').classList.add('hidden');
-    document.getElementById('start-screen').classList.remove('hidden');
-    gameState = 'START';
+    initGame();
+    gameState = 'PLAYING';
 }
 
 function triggerGameOver() {
     gameState = 'GAMEOVER';
-    playSound('hurt');
-    document.getElementById('gameover-desc').innerText = `Energi habis di ${currentLevelData.name}. Klik tombol di bawah untuk mengulang dari stage ini!`;
+    playSound('wrong');
+    document.getElementById('gameover-desc').innerText = `Skor akhirmu: ${score}. Target minimal untuk lulus adalah 150 poin!`;
     document.getElementById('gameover-screen').classList.remove('hidden');
 }
 
 function triggerVictory() {
     gameState = 'VICTORY';
     playSound('win');
+    document.getElementById('victory-desc').innerText = `Kerja bagus! Berhasil mengumpulkan ${score} poin dan ${coins} Koin Bento!`;
     document.getElementById('victory-screen').classList.remove('hidden');
 }
 
-// --- GAME LOOP & LOGIC ---
-function update() {
+// --- INPUT / CLICK LISTENER PADA KANVAS ---
+canvas.addEventListener('click', (e) => {
     if (gameState !== 'PLAYING') return;
+    initAudio();
 
-    // Movement
-    if (keys.left) player.vx = -player.speed;
-    else if (keys.right) player.vx = player.speed;
-    else player.vx = 0;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const mouseX = (e.clientX - rect.left) * scaleX;
+    const mouseY = (e.clientY - rect.top) * scaleY;
 
-    // Jump
-    if (keys.jump && player.grounded) {
-        player.vy = player.jumpForce;
-        player.grounded = false;
-        playSound('jump');
-    }
-
-    // Aura management
-    player.auraActive = keys.aura;
-    if (player.auraActive) {
-        player.energy -= 0.35; // Konsumsi energi saat aktif
-        if (player.energy <= 0) {
-            player.energy = 0;
-            triggerGameOver();
-            return;
-        }
-    }
-
-    // Apply gravity
-    player.vy += player.gravity;
-    player.x += player.vx;
-    player.y += player.vy;
-
-    // Canvas boundary check
-    if (player.x < 0) player.x = 0;
-    if (player.x + player.width > CANVAS_WIDTH) player.x = CANVAS_WIDTH - player.width;
-
-    // Collision with Platforms
-    player.grounded = false;
-    currentLevelData.platforms.forEach(plat => {
-        if (player.x < plat.x + plat.w &&
-            player.x + player.width > plat.x &&
-            player.y < plat.y + plat.h &&
-            player.y + player.height > plat.y) {
+    // Cek klik tombol dapur
+    kitchenButtons.forEach(btn => {
+        if (mouseX >= btn.x && mouseX <= btn.x + btn.w &&
+            mouseY >= btn.y && mouseY <= btn.y + btn.h) {
             
-            // Tabrakan dari atas platform
-            if (player.vy > 0 && player.y + player.height - player.vy <= plat.y + 10) {
-                player.y = plat.y - player.height;
-                player.vy = 0;
-                player.grounded = true;
+            playSound('tap');
+            if (playerBento.length < 3) {
+                playerBento.push(btn.ingId);
+                checkBentoSubmission();
             }
         }
     });
+});
 
-    // Spikes check
-    currentLevelData.spikes.forEach(spike => {
-        if (player.x < spike.x + spike.w &&
-            player.x + player.width > spike.x &&
-            player.y + player.height > spike.y) {
-            triggerGameOver();
-        }
-    });
-
-    // Enemy Update & Aura Interaction
-    const playerCenterX = player.x + player.width / 2;
-    const playerCenterY = player.y + player.height / 2;
-
-    currentLevelData.enemies.forEach(enemy => {
-        if (!enemy.alive) return;
-
-        // Move enemy
-        enemy.x += enemy.speed * enemy.dir;
-        if (enemy.x <= enemy.minX || enemy.x >= enemy.maxX) enemy.dir *= -1;
-
-        // Aura damage to enemy
-        if (player.auraActive) {
-            const dist = Math.hypot(enemy.x - playerCenterX, enemy.y - playerCenterY);
-            if (dist < player.auraRadius) {
-                enemy.alive = false;
-                playSound('destroy');
+function checkBentoSubmission() {
+    // Jika bento sudah terisi 3 bahan (atau cocok dengan pesanan pelanggan pertama)
+    if (playerBento.length > 0 && customers.length > 0) {
+        const targetOrder = customers[0].order;
+        
+        // Cek apakah bento sama persis dengan pesanan pelanggan pertama
+        let match = true;
+        if (playerBento.length === targetOrder.length) {
+            for (let i = 0; i < playerBento.length; i++) {
+                if (playerBento[i] !== targetOrder[i]) {
+                    match = false;
+                    break;
+                }
             }
-        }
 
-        // Collision with player
-        if (enemy.alive) {
-            if (player.x < enemy.x + 20 &&
-                player.x + player.width > enemy.x - 20 &&
-                player.y < enemy.y + 20 &&
-                player.y + player.height > enemy.y - 20) {
-                triggerGameOver();
+            if (match) {
+                // Pesanan berhasil disajikan!
+                playSound('serve');
+                score += 50;
+                coins += 10;
+                playerBento = [];
+                // Hapus pelanggan pertama & masukkan pelanggan baru
+                customers.shift();
+                customers.push(spawnCustomer(customers.length));
             }
-        }
-    });
-
-    // Shard Collection
-    let remainingShards = 0;
-    currentLevelData.shards.forEach(shard => {
-        if (!shard.collected) {
-            const dist = Math.hypot(shard.x - playerCenterX, shard.y - playerCenterY);
-            if (dist < 25) {
-                shard.collected = true;
-                player.energy = Math.min(player.maxEnergy, player.energy + 20); // Isi energi +20
-                playSound('shard');
-            } else {
-                remainingShards++;
-            }
-        }
-    });
-
-    // Altar Status & Stage Transition
-    if (remainingShards === 0) {
-        currentLevelData.altar.open = true;
-    }
-
-    if (currentLevelData.altar.open) {
-        const altar = currentLevelData.altar;
-        if (player.x < altar.x + altar.w &&
-            player.x + player.width > altar.x &&
-            player.y < altar.y + altar.h &&
-            player.y + player.height > altar.y) {
-            
-            if (currentStageIndex + 1 < stages.length) {
-                loadStage(currentStageIndex + 1); // Pindah ke stage berikutnya
-                playSound('win');
-            } else {
-                triggerVictory(); // Menang total
+        } else {
+            // Jika jumlah bahan melebihi pesanan pelanggan dan tidak cocok
+            if (playerBento.length >= targetOrder.length) {
+                playSound('wrong');
+                playerBento = []; // Reset bento karena salah racik
             }
         }
     }
 }
 
-// --- RENDER & GRAPHICS ---
+// --- RENDER & GAME LOOP ---
+function update() {
+    if (gameState !== 'PLAYING') return;
+}
+
 function draw() {
-    // Background Dark Environment
-    ctx.fillStyle = '#05060b';
+    // Background Kedai Cozy
+    ctx.fillStyle = '#312e81';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     if (gameState === 'START' || gameState === 'TUTORIAL') return;
 
-    // 1. Draw Platforms (DIAMBIL DULUAN AGAR SLAYER TERANG)
-    currentLevelData.platforms.forEach(plat => {
-        if (plat.type === 'normal') {
-            // Solid Stone Platform (Sangat Jelas & Kontras)
-            ctx.fillStyle = '#3b82f6'; // Bright Blue Border/Fill
-            ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
-            ctx.fillStyle = '#1e293b'; // Inner Core
-            ctx.fillRect(plat.x + 3, plat.y + 3, plat.w - 6, plat.h - 6);
-            ctx.strokeStyle = '#60a5fa';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(plat.x, plat.y, plat.w, plat.h);
-        } else if (plat.type === 'magic') {
-            // Ancient Magic Platform (Efek Cyan Glow Bright)
-            ctx.shadowColor = '#06b6d4';
-            ctx.shadowBlur = 10;
-            ctx.fillStyle = '#0891b2';
-            ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
-            ctx.fillStyle = '#06b6d4';
-            ctx.fillRect(plat.x + 2, plat.y + 2, plat.w - 4, plat.h - 4);
-            ctx.shadowBlur = 0; // Reset
-        }
-    });
-
-    // 2. Draw Spikes
-    ctx.fillStyle = '#ef4444';
-    currentLevelData.spikes.forEach(spike => {
-        const count = Math.floor(spike.w / 15);
-        for (let i = 0; i < count; i++) {
-            ctx.beginPath();
-            ctx.moveTo(spike.x + i * 15, spike.y + spike.h);
-            ctx.lineTo(spike.x + i * 15 + 7.5, spike.y);
-            ctx.lineTo(spike.x + (i + 1) * 15, spike.y + spike.h);
-            ctx.closePath();
-            ctx.fill();
-        }
-    });
-
-    // 3. Draw Altar (Exit Portal)
-    const altar = currentLevelData.altar;
-    ctx.fillStyle = altar.open ? '#10b981' : '#475569';
-    ctx.shadowColor = altar.open ? '#34d399' : 'transparent';
-    ctx.shadowBlur = altar.open ? 15 : 0;
-    ctx.fillRect(altar.x, altar.y, altar.w, altar.h);
-    ctx.shadowBlur = 0;
-    
-    // Portal inner glow
-    if (altar.open) {
-        ctx.fillStyle = '#a7f3d0';
-        ctx.fillRect(altar.x + 8, altar.y + 8, altar.w - 16, altar.h - 16);
-    }
-
-    // 4. Draw Light Shards
-    currentLevelData.shards.forEach(shard => {
-        if (!shard.collected) {
-            ctx.shadowColor = '#fbbf24';
-            ctx.shadowBlur = 12;
-            ctx.fillStyle = '#fbbf24';
-            ctx.beginPath();
-            ctx.arc(shard.x, shard.y, 8, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
-        }
-    });
-
-    // 5. Draw Enemies
-    currentLevelData.enemies.forEach(enemy => {
-        if (enemy.alive) {
-            ctx.shadowColor = '#a855f7';
-            ctx.shadowBlur = 10;
-            ctx.fillStyle = '#7e22ce';
-            ctx.beginPath();
-            ctx.arc(enemy.x, enemy.y, 14, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Red eyes
-            ctx.fillStyle = '#ef4444';
-            ctx.fillRect(enemy.x - 5, enemy.y - 4, 3, 3);
-            ctx.fillRect(enemy.x + 2, enemy.y - 4, 3, 3);
-            ctx.shadowBlur = 0;
-        }
-    });
-
-    // 6. Draw Player (Lantern Character)
-    const px = player.x + player.width / 2;
-    const py = player.y + player.height / 2;
-
-    ctx.shadowColor = '#fbbf24';
-    ctx.shadowBlur = 15;
-    ctx.fillStyle = '#f59e0b';
-    ctx.beginPath();
-    ctx.arc(px, py, player.width / 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    // 7. Light Aura & Ambient Darkness Effect
-    ctx.save();
-    const auraRadius = player.auraActive ? player.auraRadius : 60;
-    const grad = ctx.createRadialGradient(px, py, 20, px, py, auraRadius);
-    grad.addColorStop(0, 'rgba(251, 191, 36, 0.25)');
-    grad.addColorStop(1, 'rgba(5, 6, 11, 0.85)');
-
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(px, py, auraRadius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-
-    // 8. HUD (Stage Info & Energy Bar)
+    // 1. Header HUD (Score, Koin, Shift Timer)
     ctx.fillStyle = '#f8fafc';
-    ctx.font = 'bold 16px sans-serif';
-    ctx.fillText(currentLevelData.name, 20, 30);
+    ctx.font = 'bold 18px sans-serif';
+    ctx.fillText(`⭐ Skor: ${score} / 150`, 30, 35);
+    ctx.fillText(`💰 Koin: ${coins}`, 250, 35);
+    ctx.fillText(`⏳ Waktu Shift: ${shiftTimer}s`, 700, 35);
 
-    // Energy Bar Outline
-    ctx.strokeStyle = '#475569';
+    // Garis Pemisah Meja
+    ctx.strokeStyle = '#4f46e5';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(0, 70);
+    ctx.lineTo(CANVAS_WIDTH, 70);
+    ctx.stroke();
+
+    // 2. Gambar Antrean Pelanggan Kucing & Pesanan
+    customers.forEach((cust, idx) => {
+        const cx = cust.xPos;
+        const cy = 150;
+
+        // Kepala Kucing Pelanggan
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 35, 0, Math.PI * 2);
+        ctx.fill();
+        // Telinga Kucing
+        ctx.beginPath();
+        ctx.moveTo(cx - 30, cy - 20);
+        ctx.lineTo(cx - 45, cy - 45);
+        ctx.lineTo(cx - 15, cy - 30);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(cx + 30, cy - 20);
+        ctx.lineTo(cx + 45, cy - 45);
+        ctx.lineTo(cx + 15, cy - 30);
+        ctx.fill();
+
+        // Nama & Wajah
+        ctx.fillStyle = '#1e1b4b';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(cust.name, cx, cy + 50);
+
+        // Patience Bar (Bilah Kesabaran)
+        ctx.fillStyle = '#475569';
+        ctx.fillRect(cx - 40, cy - 65, 80, 8);
+        const patiencePct = cust.patience / cust.maxPatience;
+        ctx.fillStyle = patiencePct > 0.3 ? '#10b981' : '#ef4444';
+        ctx.fillRect(cx - 40, cy - 65, 80 * patiencePct, 8);
+
+        // Gelembung Pesanan Bento
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.beginPath();
+        ctx.roundRect(cx - 50, cy - 120, 100, 45, 8);
+        ctx.fill();
+
+        // Ikon Bahan Pesanan
+        let orderText = '';
+        cust.order.forEach(ingId => {
+            orderText += INGREDIENTS[ingId].icon + ' ';
+        });
+        ctx.font = '16px sans-serif';
+        ctx.fillText(orderText, cx, cy - 92);
+        ctx.textAlign = 'left'; // Reset
+    });
+
+    // 3. Piring Bento Pemain (Rak Racikan)
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(250, 260, 400, 80);
+    ctx.strokeStyle = '#6366f1';
     ctx.lineWidth = 3;
-    ctx.strokeRect(20, 40, 160, 16);
-    
-    // Energy Fill
-    const energyPercent = player.energy / player.maxEnergy;
-    ctx.fillStyle = energyPercent > 0.3 ? '#fbbf24' : '#ef4444';
-    ctx.fillRect(20, 40, 160 * energyPercent, 16);
+    ctx.strokeRect(250, 260, 400, 80);
+
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = 'bold 14px sans-serif';
+    ctx.fillText('Kotak Bento Kamu:', 270, 285);
+
+    // Tampilkan bahan yang sudah dimasukkan
+    let bentoString = 'Kosong';
+    if (playerBento.length > 0) {
+        bentoString = '';
+        playerBento.forEach(ingId => {
+            bentoString += INGREDIENTS[ingId].icon + ' ' + INGREDIENTS[ingId].name + '  ';
+        });
+    }
+    ctx.font = '18px sans-serif';
+    ctx.fillText(bentoString, 270, 320);
+
+    // 4. Tombol Interaktif Meja Dapur (Kitchen Buttons)
+    kitchenButtons.forEach(btn => {
+        ctx.fillStyle = '#4f46e5';
+        ctx.beginPath();
+        ctx.roundRect(btn.x, btn.y, btn.w, btn.h, 10);
+        ctx.fill();
+        ctx.strokeStyle = '#818cf8';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(btn.x, btn.y, btn.w, btn.h);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(btn.label, btn.x + btn.w / 2, btn.y + 42);
+        ctx.textAlign = 'left'; // Reset
+    });
 }
 
 function loop() {
@@ -774,7 +543,7 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
-// Start Main Loop
+// Mulai Loop Utama
 loop();
 </script>
 </body>
