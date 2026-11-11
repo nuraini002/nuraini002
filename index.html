@@ -2,380 +2,780 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuraini Dwiarti— Portofolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Echoes of the Forgotten</title>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
         }
-
-        :root {
-            --latar: #F0F9F6;
-            --utama: #99D8C9;
-            --aksen: #60B49F;
-            --teks: #2A4D44;
-            --teksRingan: #5A8A7E;
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #050508;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
         }
-
-        body {
-            background-color: var(--latar);
-            color: var(--teks);
-            line-height: 1.7;
-        }
-
-        /* Navigasi */
-        nav {
-            background: white;
-            padding: 1rem;
-            box-shadow: 0 2px 12px rgba(153,216,201,0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav ul {
-            list-style: none;
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
             justify-content: center;
+            align-items: center;
         }
-
-        nav a {
-            text-decoration: none;
-            color: var(--teksRingan);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        nav a:hover, nav a.aktif {
-            background: var(--utama);
-            color: white;
-        }
-
-        /* Konten Halaman */
-        .halaman {
-            display: none;
-            min-height: 80vh;
-            padding: 2rem 1.5rem;
-            max-width: 750px;
-            margin: 0 auto;
-        }
-
-        .halaman.aktif {
+        canvas {
+            background-color: #080910;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
             display: block;
-            animation: muncul 0.4s ease;
         }
-
-        @keyframes muncul {
-            dari { opacity: 0; transform: translateY(10px); }
-            ke { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            font-size: 2.2rem;
+        
+        /* UI Screens */
+        .overlay-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(8, 9, 16, 0.92);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            padding: 20px;
             text-align: center;
-            color: var(--aksen);
-            margin-bottom: 1.5rem;
+        }
+        .hidden { display: none !important; }
+        
+        h1 {
+            font-size: 2.8rem;
+            color: #fbbf24;
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+            margin-bottom: 10px;
             letter-spacing: 2px;
         }
-
         h2 {
-            font-size: 1.3rem;
-            color: var(--aksen);
-            margin: 1.5rem 0 1rem;
+            font-size: 1.8rem;
+            color: #38bdf8;
+            margin-bottom: 15px;
         }
-
-        .kartu {
-            background: white;
-            border-radius: 20px;
-            padding: 1.8rem;
-            margin-bottom: 1.2rem;
-            box-shadow: 0 4px 16px rgba(153,216,201,0.18);
+        p {
+            font-size: 1rem;
+            color: #cbd5e1;
+            max-width: 600px;
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
-
-        .info-baris {
-            padding: 0.6rem 0;
-            border-bottom: 1px dashed var(--utama);
-        }
-
-        .info-baris:last-child { border: none; }
-
-        .label {
-            font-weight: 600;
-            display: inline-block;
-            width: 130px;
-            color: var(--teks);
-        }
-
-        .nilai { color: var(--teksRingan); }
-
-        .item {
-            padding: 1rem;
-            margin-bottom: 0.8rem;
-            background: rgba(153,216,201,0.15);
-            border-radius: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .item:hover {
-            transform: translateX(8px);
-            background: var(--utama);
-            color: white;
-        }
-
-        /* Pemutar Musik */
-        .pemutar-lagu {
-            background: linear-gradient(135deg, var(--utama), var(--aksen));
-            color: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }
-
-        .pemutar-lagu audio {
+        
+        /* Tutorial Grid */
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
             width: 100%;
-            margin-top: 0.8rem;
+            max-width: 750px;
+            margin-bottom: 25px;
+        }
+        .tutorial-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: left;
+        }
+        .tutorial-card h3 {
+            font-size: 1.1rem;
+            color: #fbbf24;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .key-badge {
+            background: #334155;
+            border: 1px solid #64748b;
+            color: #f8fafc;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+        }
+        .btn:active { transform: translateY(1px); }
+        
+        /* Touch Controls for Mobile */
+        #touch-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 25px;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .touch-group {
+            display: flex;
+            gap: 15px;
+            pointer-events: auto;
+        }
+        .touch-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+            backdrop-filter: blur(4px);
+            touch-action: manipulation;
+        }
+        .touch-btn:active {
+            background: rgba(251, 191, 36, 0.4);
+            border-color: #fbbf24;
+        }
+        .touch-btn-wide {
+            width: 80px;
             border-radius: 30px;
         }
 
-        /* Galeri Gambar */
-        .galeri {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .galeri-kartu {
-            background: white;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(153,216,201,0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .galeri-kartu:hover {
-            transform: scale(1.03);
-        }
-
-        .galeri-kartu img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            background: var(--latar);
-        }
-
-        .galeri-kartu .keterangan {
-            padding: 0.8rem;
-            font-size: 0.9rem;
-            color: var(--teksRingan);
-        }
-
-        .tempat-gambar {
-            background: var(--latar);
-            height: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--teksRingan);
-            font-size: 0.9rem;
-        }
-
-        .penutup {
-            text-align: center;
-            margin-top: 2rem;
-            font-style: italic;
-            color: var(--teksRingan);
-        }
-
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            color: var(--teksRingan);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 500px) {
-            .info-baris { display: flex; flex-direction: column; }
-            .label { width: auto; margin-bottom: 0.2rem; }
-            nav a { padding: 0.4rem 0.7rem; font-size: 0.9rem; }
-            .galeri { grid-template-columns: 1fr; }
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .tutorial-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- Navigasi -->
-<nav>
-    <ul>
-        <li><a href="#beranda" class="aktif" data-halaman="beranda">Beranda</a></li>
-        <li><a href="#tentang" data-halaman="tentang">Tentang Saya</a></li>
-        <li><a href="#hobi" data-halaman="hobi">Hobi & Musik</a></li>
-        <li><a href="#karya" data-halaman="karya">Gambar & Anime</a></li>
-        <li><a href="#kegiatan" data-halaman="kegiatan">Kegiatan</a></li>
-        <li><a href="#hubungi" data-halaman="hubungi">Hubungi</a></li>
-    </ul>
-</nav>
+<div id="game-container">
+    <canvas id="gameCanvas"></canvas>
 
-<!-- Halaman Beranda -->
-<section class="halaman aktif" id="beranda">
-    <h1>NURAINI DWIARTI</h1>
-    <div class="kartu" style="text-align: center;">
-        <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-            Selamat datang di ruang kecil saya! 💚
-        </p>
-        <p style="color: var(--teksRingan);">
-            Saya Nuraini, siswa SMAN 19 Bandung yang sedang belajar, tumbuh, dan bermimpi menjadi perawat.<br>
-            Dengarkan lagu favorit saya, lihat gambar saya, dan kenal saya lebih dekat ya!
-        </p>
+    <!-- Start Screen -->
+    <div id="start-screen" class="overlay-screen">
+        <h1>ECHOES OF THE FORGOTTEN</h1>
+        <p>Jelajahi reruntuhan kuno, pulihkan energi lentera jiwamu, dan temukan jalan keluar dari kegelapan abadi.</p>
+        <button class="btn" onclick="showTutorial()">PELAJARI CARA MAIN</button>
     </div>
-</section>
 
-<!-- Halaman Tentang Saya -->
-<section class="halaman" id="tentang">
-    <h1>Tentang Saya</h1>
-    <div class="kartu">
-        <div class="info-baris">
-            <span class="label">Nama</span>
-            <span class="nilai">Nuraini Dwiarti</span>
-        </div>
-        <div class="info-baris">
-            <span class="label">Tempat, Tanggal Lahir</span>
-            <span class="nilai">Bandung, 2 Juni 2010</span>
-        </div>
-        <div class="info-baris">
-            <span class="label">Sekolah Sekarang</span>
-            <span class="nilai">SMAN 19 Bandung — Kelas X-H</span>
-        </div>
-        <div class="info-baris">
-            <span class="label">Alumni</span>
-            <span class="nilai">SMPN 35 Bandung & SDN 024 Bandung</span>
-        </div>
-        <div class="info-baris">
-            <span class="label">Cita-cita</span>
-            <span class="nilai">Menjadi perawat, ingin membantu & merawat orang lain 💉</span>
-        </div>
-    </div>
-</section>
-
-<!-- Halaman Hobi & Musik -->
-<section class="halaman" id="hobi">
-    <h1>Hobi & Musik 💚</h1>
-    
-    <div class="kartu">
-        <h2>🎧 Lagu Favorit Saya</h2>
+    <!-- Tutorial Screen -->
+    <div id="tutorial-screen" class="overlay-screen hidden">
+        <h2>PANDUAN BERMAIN</h2>
         
-        <div class="pemutar-lagu">
-            <strong style="font-size: 1.1rem;">Uragawa no Sonzai</strong>
-            <p style="opacity: 0.9; font-size: 0.9rem;">dari Anime Given</p>
-            <audio controls>
-                <source src="Uragawanosonzai.mp3" type="audio/mpeg">
-                Peramban Anda tidak mendukung pemutar musik.
-            
+        <div class="tutorial-grid">
+            <div class="tutorial-card">
+                <h3>🎮 Pergerakan</h3>
+                <p>Gunakan <span class="key-badge">A</span> / <span class="key-badge">D</span> atau <span class="key-badge">←</span> <span class="key-badge">→</span> untuk bergerak. Tekan <span class="key-badge">W</span> / <span class="key-badge">Space</span> untuk melompat.</p>
+            </div>
+            <div class="tutorial-card">
+                <h3>💡 Aura Cahaya</h3>
+                <p>Tahan <span class="key-badge">Shift</span> atau <span class="key-badge">E</span> untuk memancarkan aura. Aura dapat <strong>memusnahkan musuh bayangan</strong> (mengonsumsi energi).</p>
+            </div>
+            <div class="tutorial-card">
+                <h3>🧱 Pijakan & Rintangan</h3>
+                <p>Semua platform terlihat jelas! Hindari duri tajam dan musuh bayangan yang berpatroli.</p>
+            </div>
+            <div class="tutorial-card">
+                <h3>💎 Target Utama</h3>
+                <p>Kumpulkan semua <strong>Light Shards (Kristal)</strong> di setiap stage untuk membuka Altar Kuno menuju level berikutnya.</p>
+            </div>
+        </div>
+
+        <button class="btn" onclick="startGame()">MULAI PETUALANGAN</button>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameover-screen" class="overlay-screen hidden">
+        <h1 style="color: #ef4444;">CAHAYA REDUP</h1>
+        <p id="gameover-desc">Energi lenteramu habis. Namun semangatmu belum padam!</p>
+        <button class="btn" onclick="restartFromCheckpoint()">COBA LAGI (STAGE SAAT INI)</button>
+    </div>
+
+    <!-- Victory Screen -->
+    <div id="victory-screen" class="overlay-screen hidden">
+        <h1 style="color: #10b981;">KOTA KEMBALI BERCAHAYA</h1>
+        <p>Selamat! Kamu telah mengumpulkan seluruh Light Shards dan mengembalikan energi ke inti kota kuno.</p>
+        <button class="btn" onclick="resetToStart()">MAIN LAGI</button>
+    </div>
+
+    <!-- Touch Controls for Mobile -->
+    <div id="touch-controls">
+        <div class="touch-group">
+            <div class="touch-btn" id="btn-left">◄</div>
+            <div class="touch-btn" id="btn-right">►</div>
+        </div>
+        <div class="touch-group">
+            <div class="touch-btn touch-btn-wide" id="btn-aura">AURA</div>
+            <div class="touch-btn" id="btn-jump">▲</div>
         </div>
     </div>
+</div>
 
-    <div class="item">
-        ✏️ <strong>Menggambar</strong><br>
-        <span style="color: inherit;">Menuangkan imajinasi ke kertas — lihat hasilnya di halaman "Gambar & Anime"!</span>
-    </div>
-</section>
-
-<!-- Halaman Gambar & Anime -->
-<section class="halaman" id="karya">
-    <h1>Gambar & Anime Favorit 🎨</h1>
-    
-    <h2>🖼️ Karya Gambar Saya</h2>
-    <div class="galeri">
-        <div class="galeri-kartu">
-            <img src="1790133890771.jpg" alt="Karya saya 1">
-            <div class="keterangan">Gambar saya 1</div>
-        </div>
-        <div class="galeri-kartu">
-            <img src="gambar2.jpg" alt="Karya saya 2">
-            <div class="keterangan">Gambar saya 2</div>
-        </div>
-        <div class="galeri-kartu">
-            <img src="gambar3.jpg" alt="Karya saya 3">
-            <div class="keterangan">Gambar saya 3</div>
-        </div>
-    </div>
-
-    <h2 style="margin-top: 2.5rem;">🎌 Anime Favorit</h2>
-    <div class="galeri">
-        <div class="galeri-kartu">
-            <img src="one-piece.jpg" alt="One Piece">
-            <div class="keterangan">One Piece — petualangan seru!</div>
-        </div>
-        <div class="galeri-kartu">
-            <img src="given.jpg" alt="Given">
-            <div class="keterangan">Given — lagu & cerita yang menyentuh</div>
-        </div>
-    </div>
-</section>
-
-<!-- Halaman Kegiatan & Kemampuan -->
-<section class="halaman" id="kegiatan">
-    <h1>Kegiatan & Kemampuan</h1>
-    <div class="item">
-        🏥 <strong>PMR — Palang Merah Remaja</strong><br>
-        <span style="color: inherit;">Belajar pertolongan pertama, peduli sesama, dan siap membantu orang lain</span>
-    </div>
-    <div class="item">
-        🇯🇵 <strong>Japanese Club</strong><br>
-        <span style="color: inherit;">Mengenal budaya Jepang, berteman, dan belajar bahasa bersama</span>
-    </div>
-    <div class="item">
-        📚 <strong>Bahasa Jepang</strong><br>
-        <span style="color: inherit;">Sedang belajar dasar-dasarnya — masih terus berlatih dan semangat!</span>
-    </div>
-</section>
-
-<!-- Halaman Hubungi -->
-<section class="halaman" id="hubungi">
-    <h1>Sampai Jumpa! 💚</h1>
-    <div class="kartu penutup">
-        <p style="margin-bottom: 1rem;">
-            "Sedikit demi sedikit, saya berusaha menjadi lebih baik dari kemarin."
-        </p>
-        <p style="margin-bottom: 1rem;">
-            Terima kasih sudah berkunjung ke portofolio saya.<br>
-            Kalau ingin berteman atau berbagi hal menarik, silakan sapa saya kapan saja!
-        </p>
-        <p style="font-weight: 600; color: var(--aksen); margin-top: 1.5rem;">
-            — Yuuki
-        </p>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer>
-    💚 Dibuat dengan semangat oleh Yuuki | 2026
-</footer>
-
-<!-- JavaScript untuk ganti halaman -->
 <script>
-    const tautan = document.querySelectorAll('nav a');
-    const halaman = document.querySelectorAll('.halaman');
+// --- AUDIO SYNTHESIZER (Web Audio API) ---
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
 
-    tautan.forEach(link => {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            tautan.forEach(a => a.classList.remove('aktif'));
-            halaman.forEach(h => h.classList.remove('aktif'));
-            link.classList.add('aktif');
-            const id = link.getAttribute('data-halaman');
-            document.getElementById(id).classList.add('aktif');
-        });
+function initAudio() {
+    if (!audioCtx) audioCtx = new AudioCtx();
+}
+
+function playSound(type) {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    const now = audioCtx.currentTime;
+
+    if (type === 'jump') {
+        osc.frequency.setValueAtTime(150, now);
+        osc.frequency.exponentialRampToValueAtTime(400, now + 0.15);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.15);
+        osc.start(now);
+        osc.stop(now + 0.15);
+    } else if (type === 'shard') {
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+        osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+    } else if (type === 'hurt') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(120, now);
+        osc.frequency.linearRampToValueAtTime(40, now + 0.2);
+        gain.gain.setValueAtTime(0.4, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        osc.start(now);
+        osc.stop(now + 0.2);
+    } else if (type === 'destroy') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(300, now);
+        osc.frequency.exponentialRampToValueAtTime(60, now + 0.25);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.25);
+        osc.start(now);
+        osc.stop(now + 0.25);
+    } else if (type === 'win') {
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.setValueAtTime(554.37, now + 0.12);
+        osc.frequency.setValueAtTime(659.25, now + 0.24);
+        osc.frequency.setValueAtTime(880, now + 0.36);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.6);
+        osc.start(now);
+        osc.stop(now + 0.6);
+    }
+}
+
+// --- GAME CONFIG & STATES ---
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+const CANVAS_WIDTH = 900;
+const CANVAS_HEIGHT = 500;
+canvas.width = CANVAS_WIDTH;
+canvas.height = CANVAS_HEIGHT;
+
+let currentStageIndex = 0;
+let gameState = 'START'; // START, TUTORIAL, PLAYING, GAMEOVER, VICTORY
+
+// Keys track
+const keys = {
+    left: false,
+    right: false,
+    jump: false,
+    aura: false
+};
+
+// Player Object
+const player = {
+    x: 50,
+    y: 300,
+    width: 24,
+    height: 24,
+    vx: 0,
+    vy: 0,
+    speed: 4.5,
+    jumpForce: -10.5,
+    gravity: 0.5,
+    grounded: false,
+    energy: 100,
+    maxEnergy: 100,
+    auraActive: false,
+    auraRadius: 90
+};
+
+// --- STAGE DEFINITIONS ---
+const stages = [
+    {
+        name: "Stage 1: Ruins of Ash",
+        playerStart: { x: 50, y: 380 },
+        platforms: [
+            { x: 0, y: 440, w: 220, h: 60, type: 'normal' },
+            { x: 260, y: 380, w: 140, h: 25, type: 'magic' },
+            { x: 440, y: 320, w: 150, h: 25, type: 'normal' },
+            { x: 630, y: 260, w: 140, h: 25, type: 'magic' },
+            { x: 800, y: 200, w: 100, h: 300, type: 'normal' }
+        ],
+        spikes: [
+            { x: 220, y: 480, w: 580, h: 20 }
+        ],
+        shards: [
+            { x: 330, y: 340, collected: false },
+            { x: 515, y: 280, collected: false },
+            { x: 700, y: 220, collected: false }
+        ],
+        enemies: [
+            { x: 460, y: 290, minX: 440, maxX: 560, speed: 1.5, dir: 1, alive: true }
+        ],
+        altar: { x: 830, y: 140, w: 40, h: 60, open: false }
+    },
+    {
+        name: "Stage 2: Whispering Chasm",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+            { x: 0, y: 350, w: 140, h: 150, type: 'normal' },
+            { x: 180, y: 380, w: 110, h: 25, type: 'magic' },
+            { x: 340, y: 320, w: 110, h: 25, type: 'normal' },
+            { x: 500, y: 260, w: 120, h: 25, type: 'magic' },
+            { x: 670, y: 200, w: 110, h: 25, type: 'magic' },
+            { x: 810, y: 150, w: 90, h: 350, type: 'normal' }
+        ],
+        spikes: [
+            { x: 140, y: 480, w: 670, h: 20 }
+        ],
+        shards: [
+            { x: 230, y: 340, collected: false },
+            { x: 390, y: 280, collected: false },
+            { x: 550, y: 220, collected: false },
+            { x: 720, y: 160, collected: false }
+        ],
+        enemies: [
+            { x: 350, y: 290, minX: 340, maxX: 430, speed: 2, dir: 1, alive: true },
+            { x: 520, y: 230, minX: 500, maxX: 600, speed: 2.5, dir: -1, alive: true }
+        ],
+        altar: { x: 835, y: 90, w: 40, h: 60, open: false }
+    },
+    {
+        name: "Stage 3: Citadel of Shadows",
+        playerStart: { x: 50, y: 400 },
+        platforms: [
+            { x: 0, y: 450, w: 130, h: 50, type: 'normal' },
+            { x: 170, y: 390, w: 90, h: 25, type: 'magic' },
+            { x: 300, y: 330, w: 90, h: 25, type: 'magic' },
+            { x: 430, y: 270, w: 100, h: 25, type: 'normal' },
+            { x: 570, y: 210, w: 90, h: 25, type: 'magic' },
+            { x: 700, y: 160, w: 90, h: 25, type: 'magic' },
+            { x: 820, y: 110, w: 80, h: 390, type: 'normal' }
+        ],
+        spikes: [
+            { x: 130, y: 480, w: 690, h: 20 }
+        ],
+        shards: [
+            { x: 215, y: 350, collected: false },
+            { x: 345, y: 290, collected: false },
+            { x: 475, y: 230, collected: false },
+            { x: 615, y: 170, collected: false },
+            { x: 745, y: 120, collected: false }
+        ],
+        enemies: [
+            { x: 440, y: 240, minX: 430, maxX: 510, speed: 2.2, dir: 1, alive: true },
+            { x: 580, y: 180, minX: 570, maxX: 650, speed: 2.8, dir: -1, alive: true }
+        ],
+        altar: { x: 840, y: 50, w: 40, h: 60, open: false }
+    }
+];
+
+let currentLevelData = null;
+
+function loadStage(index) {
+    currentStageIndex = index;
+    const template = stages[index];
+    
+    // Deep copy level data
+    currentLevelData = {
+        name: template.name,
+        platforms: JSON.parse(JSON.stringify(template.platforms)),
+        spikes: JSON.parse(JSON.stringify(template.spikes)),
+        shards: JSON.parse(JSON.stringify(template.shards)),
+        enemies: JSON.parse(JSON.stringify(template.enemies)),
+        altar: { ...template.altar }
+    };
+
+    // Reset player position & energy
+    player.x = template.playerStart.x;
+    player.y = template.playerStart.y;
+    player.vx = 0;
+    player.vy = 0;
+    player.energy = player.maxEnergy;
+}
+
+// --- INPUT LISTENERS ---
+window.addEventListener('keydown', (e) => {
+    initAudio();
+    if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = true;
+    if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = true;
+    if (e.code === 'KeyW' || e.code === 'Space' || e.code === 'ArrowUp') keys.jump = true;
+    if (e.code === 'ShiftLeft' || e.code === 'KeyE') keys.aura = true;
+});
+
+window.addEventListener('keyup', (e) => {
+    if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = false;
+    if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = false;
+    if (e.code === 'KeyW' || e.code === 'Space' || e.code === 'ArrowUp') keys.jump = false;
+    if (e.code === 'ShiftLeft' || e.code === 'KeyE') keys.aura = false;
+});
+
+// Touch buttons binding
+function setupTouchBtn(id, keyProp) {
+    const el = document.getElementById(id);
+    el.addEventListener('touchstart', (e) => { e.preventDefault(); initAudio(); keys[keyProp] = true; });
+    el.addEventListener('touchend', (e) => { e.preventDefault(); keys[keyProp] = false; });
+    el.addEventListener('mousedown', (e) => { initAudio(); keys[keyProp] = true; });
+    el.addEventListener('mouseup', () => { keys[keyProp] = false; });
+}
+setupTouchBtn('btn-left', 'left');
+setupTouchBtn('btn-right', 'right');
+setupTouchBtn('btn-jump', 'jump');
+setupTouchBtn('btn-aura', 'aura');
+
+// --- SCREEN NAVIGATION ---
+function showTutorial() {
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('tutorial-screen').classList.remove('hidden');
+}
+
+function startGame() {
+    document.getElementById('tutorial-screen').classList.add('hidden');
+    loadStage(0);
+    gameState = 'PLAYING';
+}
+
+function restartFromCheckpoint() {
+    document.getElementById('gameover-screen').classList.add('hidden');
+    loadStage(currentStageIndex); // Reload stage saat ini (TIDAK dari awal)
+    gameState = 'PLAYING';
+}
+
+function resetToStart() {
+    document.getElementById('victory-screen').classList.add('hidden');
+    document.getElementById('start-screen').classList.remove('hidden');
+    gameState = 'START';
+}
+
+function triggerGameOver() {
+    gameState = 'GAMEOVER';
+    playSound('hurt');
+    document.getElementById('gameover-desc').innerText = `Energi habis di ${currentLevelData.name}. Klik tombol di bawah untuk mengulang dari stage ini!`;
+    document.getElementById('gameover-screen').classList.remove('hidden');
+}
+
+function triggerVictory() {
+    gameState = 'VICTORY';
+    playSound('win');
+    document.getElementById('victory-screen').classList.remove('hidden');
+}
+
+// --- GAME LOOP & LOGIC ---
+function update() {
+    if (gameState !== 'PLAYING') return;
+
+    // Movement
+    if (keys.left) player.vx = -player.speed;
+    else if (keys.right) player.vx = player.speed;
+    else player.vx = 0;
+
+    // Jump
+    if (keys.jump && player.grounded) {
+        player.vy = player.jumpForce;
+        player.grounded = false;
+        playSound('jump');
+    }
+
+    // Aura management
+    player.auraActive = keys.aura;
+    if (player.auraActive) {
+        player.energy -= 0.35; // Konsumsi energi saat aktif
+        if (player.energy <= 0) {
+            player.energy = 0;
+            triggerGameOver();
+            return;
+        }
+    }
+
+    // Apply gravity
+    player.vy += player.gravity;
+    player.x += player.vx;
+    player.y += player.vy;
+
+    // Canvas boundary check
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.width > CANVAS_WIDTH) player.x = CANVAS_WIDTH - player.width;
+
+    // Collision with Platforms
+    player.grounded = false;
+    currentLevelData.platforms.forEach(plat => {
+        if (player.x < plat.x + plat.w &&
+            player.x + player.width > plat.x &&
+            player.y < plat.y + plat.h &&
+            player.y + player.height > plat.y) {
+            
+            // Tabrakan dari atas platform
+            if (player.vy > 0 && player.y + player.height - player.vy <= plat.y + 10) {
+                player.y = plat.y - player.height;
+                player.vy = 0;
+                player.grounded = true;
+            }
+        }
     });
-</script>
 
+    // Spikes check
+    currentLevelData.spikes.forEach(spike => {
+        if (player.x < spike.x + spike.w &&
+            player.x + player.width > spike.x &&
+            player.y + player.height > spike.y) {
+            triggerGameOver();
+        }
+    });
+
+    // Enemy Update & Aura Interaction
+    const playerCenterX = player.x + player.width / 2;
+    const playerCenterY = player.y + player.height / 2;
+
+    currentLevelData.enemies.forEach(enemy => {
+        if (!enemy.alive) return;
+
+        // Move enemy
+        enemy.x += enemy.speed * enemy.dir;
+        if (enemy.x <= enemy.minX || enemy.x >= enemy.maxX) enemy.dir *= -1;
+
+        // Aura damage to enemy
+        if (player.auraActive) {
+            const dist = Math.hypot(enemy.x - playerCenterX, enemy.y - playerCenterY);
+            if (dist < player.auraRadius) {
+                enemy.alive = false;
+                playSound('destroy');
+            }
+        }
+
+        // Collision with player
+        if (enemy.alive) {
+            if (player.x < enemy.x + 20 &&
+                player.x + player.width > enemy.x - 20 &&
+                player.y < enemy.y + 20 &&
+                player.y + player.height > enemy.y - 20) {
+                triggerGameOver();
+            }
+        }
+    });
+
+    // Shard Collection
+    let remainingShards = 0;
+    currentLevelData.shards.forEach(shard => {
+        if (!shard.collected) {
+            const dist = Math.hypot(shard.x - playerCenterX, shard.y - playerCenterY);
+            if (dist < 25) {
+                shard.collected = true;
+                player.energy = Math.min(player.maxEnergy, player.energy + 20); // Isi energi +20
+                playSound('shard');
+            } else {
+                remainingShards++;
+            }
+        }
+    });
+
+    // Altar Status & Stage Transition
+    if (remainingShards === 0) {
+        currentLevelData.altar.open = true;
+    }
+
+    if (currentLevelData.altar.open) {
+        const altar = currentLevelData.altar;
+        if (player.x < altar.x + altar.w &&
+            player.x + player.width > altar.x &&
+            player.y < altar.y + altar.h &&
+            player.y + player.height > altar.y) {
+            
+            if (currentStageIndex + 1 < stages.length) {
+                loadStage(currentStageIndex + 1); // Pindah ke stage berikutnya
+                playSound('win');
+            } else {
+                triggerVictory(); // Menang total
+            }
+        }
+    }
+}
+
+// --- RENDER & GRAPHICS ---
+function draw() {
+    // Background Dark Environment
+    ctx.fillStyle = '#05060b';
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    if (gameState === 'START' || gameState === 'TUTORIAL') return;
+
+    // 1. Draw Platforms (DIAMBIL DULUAN AGAR SLAYER TERANG)
+    currentLevelData.platforms.forEach(plat => {
+        if (plat.type === 'normal') {
+            // Solid Stone Platform (Sangat Jelas & Kontras)
+            ctx.fillStyle = '#3b82f6'; // Bright Blue Border/Fill
+            ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
+            ctx.fillStyle = '#1e293b'; // Inner Core
+            ctx.fillRect(plat.x + 3, plat.y + 3, plat.w - 6, plat.h - 6);
+            ctx.strokeStyle = '#60a5fa';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(plat.x, plat.y, plat.w, plat.h);
+        } else if (plat.type === 'magic') {
+            // Ancient Magic Platform (Efek Cyan Glow Bright)
+            ctx.shadowColor = '#06b6d4';
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = '#0891b2';
+            ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
+            ctx.fillStyle = '#06b6d4';
+            ctx.fillRect(plat.x + 2, plat.y + 2, plat.w - 4, plat.h - 4);
+            ctx.shadowBlur = 0; // Reset
+        }
+    });
+
+    // 2. Draw Spikes
+    ctx.fillStyle = '#ef4444';
+    currentLevelData.spikes.forEach(spike => {
+        const count = Math.floor(spike.w / 15);
+        for (let i = 0; i < count; i++) {
+            ctx.beginPath();
+            ctx.moveTo(spike.x + i * 15, spike.y + spike.h);
+            ctx.lineTo(spike.x + i * 15 + 7.5, spike.y);
+            ctx.lineTo(spike.x + (i + 1) * 15, spike.y + spike.h);
+            ctx.closePath();
+            ctx.fill();
+        }
+    });
+
+    // 3. Draw Altar (Exit Portal)
+    const altar = currentLevelData.altar;
+    ctx.fillStyle = altar.open ? '#10b981' : '#475569';
+    ctx.shadowColor = altar.open ? '#34d399' : 'transparent';
+    ctx.shadowBlur = altar.open ? 15 : 0;
+    ctx.fillRect(altar.x, altar.y, altar.w, altar.h);
+    ctx.shadowBlur = 0;
+    
+    // Portal inner glow
+    if (altar.open) {
+        ctx.fillStyle = '#a7f3d0';
+        ctx.fillRect(altar.x + 8, altar.y + 8, altar.w - 16, altar.h - 16);
+    }
+
+    // 4. Draw Light Shards
+    currentLevelData.shards.forEach(shard => {
+        if (!shard.collected) {
+            ctx.shadowColor = '#fbbf24';
+            ctx.shadowBlur = 12;
+            ctx.fillStyle = '#fbbf24';
+            ctx.beginPath();
+            ctx.arc(shard.x, shard.y, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+    });
+
+    // 5. Draw Enemies
+    currentLevelData.enemies.forEach(enemy => {
+        if (enemy.alive) {
+            ctx.shadowColor = '#a855f7';
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = '#7e22ce';
+            ctx.beginPath();
+            ctx.arc(enemy.x, enemy.y, 14, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Red eyes
+            ctx.fillStyle = '#ef4444';
+            ctx.fillRect(enemy.x - 5, enemy.y - 4, 3, 3);
+            ctx.fillRect(enemy.x + 2, enemy.y - 4, 3, 3);
+            ctx.shadowBlur = 0;
+        }
+    });
+
+    // 6. Draw Player (Lantern Character)
+    const px = player.x + player.width / 2;
+    const py = player.y + player.height / 2;
+
+    ctx.shadowColor = '#fbbf24';
+    ctx.shadowBlur = 15;
+    ctx.fillStyle = '#f59e0b';
+    ctx.beginPath();
+    ctx.arc(px, py, player.width / 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // 7. Light Aura & Ambient Darkness Effect
+    ctx.save();
+    const auraRadius = player.auraActive ? player.auraRadius : 60;
+    const grad = ctx.createRadialGradient(px, py, 20, px, py, auraRadius);
+    grad.addColorStop(0, 'rgba(251, 191, 36, 0.25)');
+    grad.addColorStop(1, 'rgba(5, 6, 11, 0.85)');
+
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(px, py, auraRadius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // 8. HUD (Stage Info & Energy Bar)
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText(currentLevelData.name, 20, 30);
+
+    // Energy Bar Outline
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(20, 40, 160, 16);
+    
+    // Energy Fill
+    const energyPercent = player.energy / player.maxEnergy;
+    ctx.fillStyle = energyPercent > 0.3 ? '#fbbf24' : '#ef4444';
+    ctx.fillRect(20, 40, 160 * energyPercent, 16);
+}
+
+function loop() {
+    update();
+    draw();
+    requestAnimationFrame(loop);
+}
+
+// Start Main Loop
+loop();
+</script>
 </body>
-  </html>
-  
+</html>
